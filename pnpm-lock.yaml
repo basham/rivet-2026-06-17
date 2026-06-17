@@ -209,8 +209,8 @@ catalogs:
       specifier: github:indiana-university/rivet-source#v3-header-nav&path:/packages/core
       version: 3.0.0-alpha.10
     astro:
-      specifier: 6.4.6
-      version: 6.4.6
+      specifier: 6.4.7
+      version: 6.4.7
 
 overrides:
   '@rivet-iu/tokens': github:indiana-university/rivet-source#v3-header-nav&path:/packages/tokens
@@ -231,7 +231,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 6.4.6(rollup@4.62.0)
+        version: 6.4.7(rollup@4.62.0)
 
   prototypes/02-hh:
     dependencies:
@@ -241,7 +241,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 6.4.6(rollup@4.62.0)
+        version: 6.4.7(rollup@4.62.0)
 
   prototypes/03-hh:
     dependencies:
@@ -251,7 +251,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 6.4.6(rollup@4.62.0)
+        version: 6.4.7(rollup@4.62.0)
 
 packages:
 
@@ -846,8 +846,8 @@ packages:
   array-iterate@2.0.1:
     resolution: {integrity: sha512-I1jXZMjAgCMmxT4qxXfPXa6SthSoE8h6gkSI9BGGNv8mP8G/v0blc+qFnZu6K42vTOiuME596QaLO0TP3Lk0xg==}
 
-  astro@6.4.6:
-    resolution: {integrity: sha512-48OBTBKR9ctbf+DQxpOuxGl8ebfn59zTuNQMBzptmG/Mi/H8IdfMSbJgGuX1I/4U6g9yazG1p4BHlf4+2hWU4Q==}
+  astro@6.4.7:
+    resolution: {integrity: sha512-5vsXx0H52u23Jpshs9tM81D03Tb3Oh2Vt2Zo0bpqjXN+njkAWjFyGjTfmWJLAcrCQd9Q+iWB1eqfhR1sZJEaUA==}
     engines: {node: '>=22.12.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2233,7 +2233,7 @@ snapshots:
 
   array-iterate@2.0.1: {}
 
-  astro@6.4.6(rollup@4.62.0):
+  astro@6.4.7(rollup@4.62.0):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@astrojs/internal-helpers': 0.10.0
