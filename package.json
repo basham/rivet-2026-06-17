@@ -1,0 +1,26 @@
+{
+	"name": "@rivet-iu/2026-06-17",
+	"description": "Rivet nav prototypes",
+	"private": true,
+	"homepage": "https://rivet.iu.edu",
+	"license": "BSD-3-Clause",
+	"type": "module",
+	"scripts": {
+		"build": "pnpm --filter @rivet-iu/sandbox... build",
+		"dev": "pnpm --filter @rivet-iu/sandbox... dev",
+		"preview": "pnpm --filter @rivet-iu/sandbox... preview"
+	},
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": "24.x",
+			"onFail": "download"
+		},
+		"packageManager": {
+			"name": "pnpm",
+			"version": "11.x",
+			"onFail": "download"
+		}
+	},
+	"devDependencies": {}
+}

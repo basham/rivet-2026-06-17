@@ -1,0 +1,19 @@
+{
+	"name": "@prototypes/01-iub",
+	"description": "",
+	"private": true,
+	"license": "BSD-3-Clause",
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev --open --host",
+		"build": "astro build",
+		"prepreview": "pnpm build",
+		"preview": "astro preview --open --host"
+	},
+	"devDependencies": {
+		"astro": "catalog:"
+	},
+	"dependencies": {
+		"@rivet-iu/core": "catalog:"
+	}
+}
