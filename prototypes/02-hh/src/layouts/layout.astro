@@ -1,6 +1,9 @@
 ---
+import "@rivet-iu/core/dist/rivet.css";
+import "@rivet-iu/core/dist/rivet-icons.css";
+import "@rivet-iu/core/dist/rivet-stickers.css";
 import Footer from "@rivet-iu/core/src/components/footer/footer.astro";
-import ScrollSnap from "../../../iub-nav/src/components/scroll-snap.astro";
+import ScrollSnap from "../../../01-iub/src/components/scroll-snap.astro";
 import Header from "../components/header.astro";
 import { menus as _menus, site } from "../const.js";
 import { getMenus } from "../util.js";
@@ -27,10 +30,7 @@ if (menus.page) {
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{docTitle}</title>
-		<link rel="stylesheet" href="/@rivet-iu/core/dist/rivet.css" />
-		<link rel="stylesheet" href="/@rivet-iu/core/dist/rivet-icons.css" />
-		<link rel="stylesheet" href="/@rivet-iu/core/dist/rivet-stickers.css" />
-		<script type="module" src="/@rivet-iu/core/dist/rivet.js"></script>
+		<script src="@rivet-iu/core/dist/rivet.js"></script>
 	</head>
 	<body>
 		<Header menus={menus} />
