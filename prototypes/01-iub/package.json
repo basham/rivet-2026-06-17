@@ -1,6 +1,6 @@
 {
 	"name": "@prototypes/01-iub",
-	"description": "",
+	"description": "IU Bloomington with horizontal nav",
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",

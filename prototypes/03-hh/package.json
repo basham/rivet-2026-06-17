@@ -1,6 +1,6 @@
 {
 	"name": "@prototypes/03-hh",
-	"description": "Hoosier Highlights prototype with side nav",
+	"description": "Hoosier Highlights with side nav",
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",

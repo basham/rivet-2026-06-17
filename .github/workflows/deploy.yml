@@ -45,13 +45,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         working-directory: ${{ env.BUILD_PATH }}
-      - name: Build sandbox site
+      - name: Build artifact
         run: pnpm build
         working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: ${{ env.BUILD_PATH }}/packages/sandbox/dist
+          path: ${{ env.BUILD_PATH }}/dist
 
   deploy:
     environment:

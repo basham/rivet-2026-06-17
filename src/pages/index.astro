@@ -1,0 +1,47 @@
+---
+import "@rivet-iu/core/dist/rivet.css";
+import pkg from "#root/package.json";
+import pkg1 from "@prototypes/01-iub/package.json";
+import pkg2 from "@prototypes/02-hh/package.json";
+import pkg3 from "@prototypes/03-hh/package.json";
+
+const { description } = pkg;
+const prototypes = [
+	pkg1,
+	pkg2,
+	pkg3
+].map((p) => {
+	const { description: label, name } = p;
+	const url = name.replace("@prototypes", pkg.name);
+	return { label, url };
+});
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{description}</title>
+	</head>
+	<body>
+		<main>
+			<h1>{description}</h1>
+			<ol>
+				{prototypes.map((p) => (
+					<li><a href={p.url}>{p.label}</a></li>
+				))}
+			</ol>
+		</main>
+	</body>
+</html>
+
+<style>
+	main {
+		padding: var(--rvt-size-48);
+	}
+
+	h1 {
+		font: var(--rvt-font-20-bold);
+	}
+</style>
