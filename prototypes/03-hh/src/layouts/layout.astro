@@ -1,12 +1,15 @@
 ---
+import "@rivet-iu/core/dist/rivet.css";
+import "@rivet-iu/core/dist/rivet-icons.css";
+import "@rivet-iu/core/dist/rivet-stickers.css";
 import Footer from "@rivet-iu/core/src/components/footer/footer.astro";
 import Header from "../components/header.astro";
 import { menus as _menus, site } from "../const.js";
-import { getMenus } from "../util.js";
+import { getMenus, getUrl } from "../util.js";
 
 const menus = getMenus(_menus, Astro);
 const { label: title } = menus.page;
-const root = Astro.url.pathname === "/";
+const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
 const hideTitle = Astro.slots.has("default");
 const breadcrumbs = [];
@@ -26,10 +29,7 @@ if (menus.page) {
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{docTitle}</title>
-		<link rel="stylesheet" href="/@rivet-iu/core/dist/rivet.css" />
-		<link rel="stylesheet" href="/@rivet-iu/core/dist/rivet-icons.css" />
-		<link rel="stylesheet" href="/@rivet-iu/core/dist/rivet-stickers.css" />
-		<script type="module" src="/@rivet-iu/core/dist/rivet.js"></script>
+		<script src="@rivet-iu/core/dist/rivet.js"></script>
 	</head>
 	<body>
 		<Header menus={menus} />

@@ -6,11 +6,11 @@ import Footer from "@rivet-iu/core/src/components/footer/footer.astro";
 import ScrollSnap from "../../../01-iub/src/components/scroll-snap.astro";
 import Header from "../components/header.astro";
 import { menus as _menus, site } from "../const.js";
-import { getMenus } from "../util.js";
+import { getMenus, getUrl } from "../util.js";
 
 const menus = getMenus(_menus, Astro);
 const { label: title } = menus.page;
-const root = Astro.url.pathname === "/";
+const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
 const hideTitle = Astro.slots.has("default");
 const breadcrumbs = [];

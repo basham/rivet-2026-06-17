@@ -50,7 +50,7 @@ export function getUrl(path = "") {
 	const cleanPath = path.startsWith("/") ? path : `/${path}`;
 	const trimmedPath = cleanPath.length === 1 ? "" : cleanPath;
 	return `${base}${trimmedPath}`.replace(/\/+/g, "/");
-} 
+}
 
 export function removeEnd(str, end) {
 	if (!str) {

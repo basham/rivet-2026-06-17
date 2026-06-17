@@ -1,8 +1,3 @@
-/*
- * Copyright (C) 2018 The Trustees of Indiana University
- * SPDX-License-Identifier: BSD-3-Clause
- */
-
 export function getMenus(menus, Astro) {
 	const pages = [];
 
@@ -10,7 +5,7 @@ export function getMenus(menus, Astro) {
 		const { id: _id, label = "", items: _items = [], ...other } = data;
 		const main = depth === 0;
 		const id = _id ?? toSlug(label);
-		const url = `/${id}`;
+		const url = getUrl(id);
 		const current = url === removeEnd(Astro?.url?.pathname, "/");
 		const page = {
 			...other,
@@ -49,6 +44,13 @@ export function getMenus(menus, Astro) {
 		page,
 		pages,
 	};
+}
+
+export function getUrl(path = "") {
+	const base = import.meta.env.BASE_URL || "/";
+	const cleanPath = path.startsWith("/") ? path : `/${path}`;
+	const trimmedPath = cleanPath.length === 1 ? "" : cleanPath;
+	return `${base}${trimmedPath}`.replace(/\/+/g, "/");
 }
 
 export function removeEnd(str, end) {

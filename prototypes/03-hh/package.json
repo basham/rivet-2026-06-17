@@ -5,19 +5,13 @@
 	"license": "BSD-3-Clause",
 	"type": "module",
 	"scripts": {
-		"predev": "pnpm public",
 		"dev": "astro dev --open --host",
-		"prebuild": "pnpm public",
 		"build": "astro build",
 		"prepreview": "pnpm build",
-		"preview": "astro preview --open --host",
-		"prepublic": "rimraf public",
-		"public": "cpy 'node_modules/@rivet-iu/*' 'public' --cwd=public"
+		"preview": "astro preview --open --host"
 	},
 	"devDependencies": {
-		"astro": "catalog:",
-		"cpy-cli": "catalog:",
-		"rimraf": "catalog:"
+		"astro": "catalog:"
 	},
 	"dependencies": {
 		"@rivet-iu/core": "catalog:"
