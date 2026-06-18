@@ -2,8 +2,7 @@ blockExoticSubdeps: false
 dangerouslyAllowAllBuilds: true
 catalog:
   "@rivet-iu/core": "github:indiana-university/rivet-source#v3-header-nav&path:/packages/core"
-  "astro": "6.4.7"
-  "cpy-cli": "7.0.0"
+  "astro": "6.4.8"
   "rimraf": "6.1.3"
 packages:
   - "packages/*"
