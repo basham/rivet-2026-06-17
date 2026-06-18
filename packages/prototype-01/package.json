@@ -1,9 +1,13 @@
 {
-	"name": "@prototypes/03-hh",
-	"description": "Hoosier Highlights with side nav",
+	"name": "@repo/prototype-01",
+	"description": "IU Bloomington with horizontal nav",
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",
+	"exports": {
+		"./src/*": "./src/*",
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"dev": "astro dev --open --host",
 		"build": "astro build",

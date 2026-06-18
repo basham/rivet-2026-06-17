@@ -1,0 +1,20 @@
+{
+	"name": "@repo/prototype-02",
+	"description": "Hoosier Highlights with horizontal nav",
+	"private": true,
+	"license": "BSD-3-Clause",
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev --open --host",
+		"build": "astro build",
+		"prepreview": "pnpm build",
+		"preview": "astro preview --open --host"
+	},
+	"devDependencies": {
+		"astro": "catalog:"
+	},
+	"dependencies": {
+		"@repo/prototype-01": "workspace:",
+		"@rivet-iu/core": "catalog:"
+	}
+}

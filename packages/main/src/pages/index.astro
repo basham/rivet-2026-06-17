@@ -1,18 +1,20 @@
 ---
 import "@rivet-iu/core/dist/rivet.css";
-import pkg from "#root/package.json";
-import pkg1 from "@prototypes/01-iub/package.json";
-import pkg2 from "@prototypes/02-hh/package.json";
-import pkg3 from "@prototypes/03-hh/package.json";
+import pkgRoot from "#root/package.json";
+import pkg1 from "@repo/prototype-01/package.json";
+import pkg2 from "@repo/prototype-02/package.json";
+import pkg3 from "@repo/prototype-03/package.json";
 
-const { description } = pkg;
+const { BASE_URL } = import.meta.env;
+const base = BASE_URL === "/" ? "" : BASE_URL;
+const { description } = pkgRoot;
 const prototypes = [
 	pkg1,
 	pkg2,
 	pkg3
 ].map((p) => {
 	const { description: label, name } = p;
-	const url = name.replace("@prototypes", pkg.name);
+	const url = name.replace("@repo", base);
 	return { label, url };
 });
 ---

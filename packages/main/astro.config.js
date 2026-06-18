@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import pkg from "./package.json";
+import pkg from "#root/package.json";
 
 const { name: base } = pkg;
 

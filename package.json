@@ -4,17 +4,14 @@
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",
-	"imports": {
-		"#root/*": "./*"
-	},
 	"scripts": {
-		"dev": "astro dev --open --host",
-		"prebuild": "pnpm public",
-		"build": "astro build",
-		"prepublic": "rimraf src/public",
-		"public": "cpy ./*/dist/** ../src/public --cwd=prototypes",
+		"dev:01": "pnpm --filter @repo/prototype-01 dev",
+		"dev:02": "pnpm --filter @repo/prototype-02 dev",
+		"dev:03": "pnpm --filter @repo/prototype-03 dev",
+		"prebuild": "rimraf packages/main/public",
+		"build": "pnpm -r build",
 		"prepreview": "pnpm -r build",
-		"preview": "astro preview --open --host"
+		"preview": "pnpm --filter @repo/main preview"
 	},
 	"devEngines": {
 		"runtime": {
@@ -29,14 +26,6 @@
 		}
 	},
 	"devDependencies": {
-		"astro": "catalog:",
-		"cpy-cli": "catalog:",
 		"rimraf": "catalog:"
-	},
-	"dependencies": {
-		"@prototypes/01-iub": "workspace:",
-		"@prototypes/02-hh": "workspace:",
-		"@prototypes/03-hh": "workspace:",
-		"@rivet-iu/core": "catalog:"
 	}
 }

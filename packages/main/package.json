@@ -1,19 +1,23 @@
 {
-	"name": "@prototypes/01-iub",
-	"description": "IU Bloomington with horizontal nav",
+	"name": "@repo/main",
+	"description": "Launch page for prototypes",
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",
+	"imports": {
+		"#root/*": "../../*"
+	},
 	"scripts": {
-		"dev": "astro dev --open --host",
 		"build": "astro build",
-		"prepreview": "pnpm build",
 		"preview": "astro preview --open --host"
 	},
 	"devDependencies": {
 		"astro": "catalog:"
 	},
 	"dependencies": {
+		"@repo/prototype-01": "workspace:",
+		"@repo/prototype-02": "workspace:",
+		"@repo/prototype-03": "workspace:",
 		"@rivet-iu/core": "catalog:"
 	}
 }

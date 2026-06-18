@@ -6,7 +6,7 @@ catalog:
   "cpy-cli": "7.0.0"
   "rimraf": "6.1.3"
 packages:
-  - "prototypes/*"
+  - "packages/*"
 overrides:
   "@rivet-iu/tokens": "github:indiana-university/rivet-source#v3-header-nav&path:/packages/tokens"
 saveExact: true
