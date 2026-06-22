@@ -4,6 +4,10 @@
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",
+	"exports": {
+		"./src/*": "./src/*",
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"dev": "astro dev --open --host",
 		"build": "astro build",

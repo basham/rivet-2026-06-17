@@ -273,6 +273,12 @@ importers:
 
   packages/prototype-03:
     dependencies:
+      '@repo/prototype-01':
+        specifier: 'workspace:'
+        version: link:../prototype-01
+      '@repo/prototype-02':
+        specifier: 'workspace:'
+        version: link:../prototype-02
       '@rivet-iu/core':
         specifier: 'catalog:'
         version: https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a#path:/packages/core
@@ -651,8 +657,8 @@ packages:
     resolution: {gitHosted: true, integrity: sha512-NsLiiDa2nXJsdKHyG0TCPdDa+ZlxBXHDEAS/57OxHnCYqclZ0/IsBhrK69xyB0V9cY5TkrZUU9VsgIFOo8QCPQ==, path: /packages/core, tarball: https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a}
     version: 3.0.0-alpha.10
 
-  '@rivet-iu/tokens@https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a#path:/packages/tokens':
-    resolution: {gitHosted: true, integrity: sha512-NsLiiDa2nXJsdKHyG0TCPdDa+ZlxBXHDEAS/57OxHnCYqclZ0/IsBhrK69xyB0V9cY5TkrZUU9VsgIFOo8QCPQ==, path: /packages/tokens, tarball: https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a}
+  '@rivet-iu/tokens@https://codeload.github.com/indiana-university/rivet-source/tar.gz/fd806c02c7d74ff4cfa56d9a6d387715a460cf3d#path:/packages/tokens':
+    resolution: {gitHosted: true, integrity: sha512-8a9T9fBfnU4GQ7WGBRs3MZrZFs5aXr6sFanfr8RywBR8NNkG6aT15eOld+IxhuViaaQ8CS0PKidUT4uDg1bXWA==, path: /packages/tokens, tarball: https://codeload.github.com/indiana-university/rivet-source/tar.gz/fd806c02c7d74ff4cfa56d9a6d387715a460cf3d}
     version: 1.0.0
 
   '@rollup/pluginutils@5.4.0':
@@ -2128,10 +2134,10 @@ snapshots:
 
   '@rivet-iu/core@https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a#path:/packages/core':
     dependencies:
-      '@rivet-iu/tokens': https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a#path:/packages/tokens
+      '@rivet-iu/tokens': https://codeload.github.com/indiana-university/rivet-source/tar.gz/fd806c02c7d74ff4cfa56d9a6d387715a460cf3d#path:/packages/tokens
       wicked-elements: 3.1.2
 
-  '@rivet-iu/tokens@https://codeload.github.com/indiana-university/rivet-source/tar.gz/4597ff5c120a3b2d46179ee44d9b5692e272869a#path:/packages/tokens': {}
+  '@rivet-iu/tokens@https://codeload.github.com/indiana-university/rivet-source/tar.gz/fd806c02c7d74ff4cfa56d9a6d387715a460cf3d#path:/packages/tokens': {}
 
   '@rollup/pluginutils@5.4.0(rollup@4.62.0)':
     dependencies:

@@ -10,7 +10,7 @@ const applyMenu = [
 	["Credits & Transfer"],
 	["Manage Your Application"],
 	["How to Apply"],
-];
+].map(mapToMenu);
 const admissionsMenu = [
 	["Apply", null, applyMenu],
 	["Admissions Paths"],
@@ -25,7 +25,7 @@ const admissionsMenu = [
 	["For Counselors"],
 	["For Families"],
 	["Request Information"],
-];
+].map(mapToMenu);
 const homeMenu = [
 	["Academics"],
 	["Admissions", null, admissionsMenu],
@@ -35,5 +35,9 @@ const homeMenu = [
 	["Research"],
 	["About IU"],
 	["Alumni & Giving"],
-];
-export const menus = [site, "", homeMenu];
+].map(mapToMenu);
+export const menus = mapToMenu([site, "", homeMenu]);
+
+function mapToMenu([label, id, items = []]) {
+	return { label, id, items };
+}
