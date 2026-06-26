@@ -15,10 +15,10 @@ const hideTitle = Astro.slots.has("default");
 const breadcrumbs = [];
 
 if (menus.page) {
-	let { parent } = menus.page;
+	let parent = menus.page.getParent();
 	while (parent) {
 		breadcrumbs.unshift(parent);
-		parent = parent.parent;
+		parent = parent.getParent();
 	}
 }
 ---
@@ -40,7 +40,7 @@ if (menus.page) {
 						<ScrollSnap>
 							<nav aria-label="Related pages">
 								{
-									menus.current.parent && (
+									menus.current.getParent() && (
 										<a href={menus.current.url}>{menus.current.label}</a>
 									)
 								}

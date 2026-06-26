@@ -11,11 +11,13 @@ export function getMenus(menus, Astro) {
 			...other,
 			current,
 			depth,
+			getParent: () => pages.find((menu) => menu.id === parent?.id),
 			id,
 			label,
 			main,
 			parent,
 			url,
+			items: []
 		};
 		const items = _items.map((item) => getMenu(item, depth + 1, page));
 		const hasCurrent = items.some((item) => item.current);
@@ -32,7 +34,7 @@ export function getMenus(menus, Astro) {
 
 	getMenu(menus);
 
-	const all = pages.filter((page) => page.hasChildren);
+	const all = pages.filter((menu) => menu.hasChildren);
 	const main = pages.find((menu) => menu.main);
 	const current = pages.find((menu) => menu.hasCurrent) || main;
 	const page = pages.find((menu) => menu.current) || main;

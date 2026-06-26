@@ -21,6 +21,8 @@ if (menus.page) {
 		parent = parent.getParent();
 	}
 }
+
+const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 ---
 
 <!doctype html>
@@ -41,19 +43,22 @@ if (menus.page) {
 							<nav aria-labelledby="rvt-prototype-related-nav-heading">
 								<header>
 									<h2 id="rvt-prototype-related-nav-heading">
-										<a href={menus.current.url}>{menus.current.label}</a>
+										<a href={menu.url}>{menu.label}</a>
 									</h2>
 								</header>
 								<ul>
-									{menus.current.items.map((item: any) => (
+									{menu.items.map((item: any) => (
 										<li>
 											<a
 												aria-current={item.current ? "page" : null}
 												href={item.url || "#"}
 											>
 												{item.label}
+												{item.hasChildren && (
+													<rvt-icon name="chevron-right"></rvt-icon>
+												)}
 											</a>
-											{item.current && item.hasChildren && (
+											{false && item.current && item.hasChildren && (
 												<ul>
 													{item.items.map((child: any) => (
 														<li>
@@ -252,6 +257,15 @@ if (menus.page) {
 					border-block-end: var(--rvt-size-1) solid var(--rvt-color-theme-ui);
 					border-block-start: none;
 					padding-block: var(--rvt-size-8);
+
+					a {
+						display: flex;
+						justify-content: space-between;
+
+						rvt-icon {
+							padding-block: var(--rvt-size-4);
+						}
+					}
 
 					li {
 						padding-block-start: var(--rvt-size-8);

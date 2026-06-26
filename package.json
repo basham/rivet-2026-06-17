@@ -8,6 +8,7 @@
 		"dev:01": "pnpm --filter @repo/prototype-01 dev",
 		"dev:02": "pnpm --filter @repo/prototype-02 dev",
 		"dev:03": "pnpm --filter @repo/prototype-03 dev",
+		"dev:04": "pnpm --filter @repo/prototype-04 dev",
 		"prebuild": "rimraf packages/main/public",
 		"build": "pnpm -r build",
 		"prepreview": "pnpm -r build",
