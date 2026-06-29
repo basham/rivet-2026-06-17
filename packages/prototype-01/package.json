@@ -15,7 +15,8 @@
 		"preview": "astro preview --open --host"
 	},
 	"devDependencies": {
-		"astro": "catalog:"
+		"astro": "catalog:",
+		"sharp": "catalog:"
 	},
 	"dependencies": {
 		"@rivet-iu/core": "catalog:"
