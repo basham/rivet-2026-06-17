@@ -23,6 +23,7 @@ if (menus.page) {
 }
 
 const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
+const menuParent = menu.getParent();
 ---
 
 <!doctype html>
@@ -31,45 +32,66 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{docTitle}</title>
-		<script src="@rivet-iu/core/dist/rivet.js"></script>
 	</head>
 	<body>
 		<Header menus={menus} />
-		<main class="rvt-container">
+		<div class="rvt-container">
 			<div class="layout-side">
 				{
 					!root && (
 						<rvt-prototype-related-nav>
 							<nav aria-labelledby="rvt-prototype-related-nav-heading">
-								<header>
-									<h2 id="rvt-prototype-related-nav-heading">
-										<a href={menu.url}>{menu.label}</a>
-									</h2>
-								</header>
-								<ul>
-									{menu.items.map((item: any) => (
-										<li>
-											<a
-												aria-current={item.current ? "page" : null}
-												href={item.url || "#"}
-											>
-												{item.label}
-												{item.hasChildren && (
-													<rvt-icon name="chevron-right"></rvt-icon>
-												)}
-											</a>
-											{false && item.current && item.hasChildren && (
-												<ul>
-													{item.items.map((child: any) => (
-														<li>
-															<a href={child.url || "#"}>{child.label}</a>
-														</li>
-													))}
-												</ul>
+								<div class="rvt-disclosure">
+									<button
+										aria-expanded="true"
+										class="rvt-disclosure__toggle"
+										data-rvt-disclosure-toggle
+									>
+										Section menu
+									</button>
+									<div data-rvt-disclosure-target>
+										<header>
+											{menuParent && (
+												<div>
+													<a
+														class="rvt-button rvt-button--medium"
+														href={menuParent.url}
+													>
+														<rvt-icon name="chevron-left"></rvt-icon>
+														{menuParent.label}
+													</a>
+												</div>
 											)}
-										</li>
-									))}
-								</ul>
+											<h2 id="rvt-prototype-related-nav-heading">
+												<a href={menu.url}>{menu.label}</a>
+											</h2>
+										</header>
+										<ul>
+											{menu.items.map((item: any) => (
+												<li>
+													<a
+														aria-current={item.current ? "page" : null}
+														href={item.url || "#"}
+													>
+														{item.label}
+														{item.hasChildren && (
+															<rvt-icon name="chevron-right"></rvt-icon>
+														)}
+													</a>
+													{false && item.current && item.hasChildren && (
+														<ul>
+															{item.items.map((child: any) => (
+																<li>
+																	<a href={child.url || "#"}>{child.label}</a>
+																</li>
+															))}
+														</ul>
+													)}
+												</li>
+											))}
+										</ul>
+									</div>
+								</div>
 							</nav>
 						</rvt-prototype-related-nav>
 					)
@@ -145,7 +167,7 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 					}
 				</main>
 			</div>
-		</main>
+		</div>
 		<Footer />
 	</body>
 </html>
@@ -160,11 +182,15 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 		--gap: var(--rvt-size-40);
 
 		rvt-prototype-related-nav {
-			display: none;
+			_display: none;
 		}
 
 		rvt-breadcrumbs {
 			padding-block-end: var(--rvt-size-16);
+		}
+
+		main {
+			padding-block-end: var(--gap);
 		}
 
 		.rvt-hero {
@@ -211,7 +237,44 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 
 	rvt-prototype-related-nav {
 		nav {
-			a {
+
+			details {
+				border: var(--border);
+				margin-block-end: var(--rvt-size-24);
+				padding: var(--rvt-size-16);
+
+				summary {
+					display: flex;
+					font: var(--rvt-font-16-bold);
+					justify-content: space-between;
+
+					&::marker {
+						display: none;
+					}
+
+					&::after {
+						background-color: currentColor;
+						clip-path: path(var(--icon, var(--rvt-icon-chevron-down)));
+						content: "";
+						display: block;
+						height: var(--rvt-size-16);
+						margin-block: var(--rvt-size-4);
+						width: var(--rvt-size-16);
+					}
+				}
+
+				&:open summary {
+					--icon: var(--rvt-icon-chevron-up);
+					margin-block-end: var(--rvt-size-32);
+				}
+
+				&::details-content {
+					display: block;
+					color: blue;
+				}
+			}
+
+			:is(h2, ul) a {
 				color: unset;
 				display: block;
 				text-decoration: none;
@@ -234,10 +297,15 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 				}
 			}
 
-			> header {
+			header {
 				margin-block-end: var(--rvt-size-8);
 
 				:is(h2, h3, h4, h5, h6) {
+
+					&:not(:first-child) {
+						margin-block-start: var(--rvt-size-32);
+					}
+
 					a {
 						font: var(--rvt-font-18-bold);
 					}
@@ -250,7 +318,7 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 				padding: 0;
 			}
 
-			> ul {
+			ul {
 				border-block-start: var(--rvt-size-1) solid var(--rvt-color-theme-ui);
 
 				> li {
@@ -304,6 +372,10 @@ const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 	}
 
 	main {
-		padding-block-end: var(--rvt-size-32);
+		_padding-block-end: var(--rvt-size-32);
 	}
 </style>
+
+<script>
+	import "@rivet-iu/core";
+</script>
