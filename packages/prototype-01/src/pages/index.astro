@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import imageHero1 from "../assets/hero-01-students-imu.webp";
 import Layout from "../layouts/layout.astro";
 import { getUrl } from "../util.js";
 ---
@@ -24,9 +26,10 @@ import { getUrl } from "../util.js";
 		</div>
 		<figure class="rvt-hero__figure">
 			<div class="rvt-hero__images">
-				<img
-					src="https://raw.githubusercontent.com/basham/rivet-assets/refs/heads/main/images/hero-01-students-imu.webp"
+				<Image
+					src={imageHero1}
 					alt="Three students joke outside the Indiana Memorial Union while enjoying coffees."
+					layout="constrained"
 				/>
 			</div>
 		</figure>
