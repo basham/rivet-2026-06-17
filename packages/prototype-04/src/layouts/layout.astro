@@ -41,15 +41,15 @@ const menuParent = menu.getParent();
 					!root && (
 						<rvt-prototype-related-nav>
 							<nav aria-labelledby="rvt-prototype-related-nav-heading">
-								<div class="rvt-disclosure">
+								<div class="rvt-disclosure" data-rvt-disclosure>
 									<button
-										aria-expanded="true"
+										aria-expanded="false"
 										class="rvt-disclosure__toggle"
 										data-rvt-disclosure-toggle
 									>
 										Section menu
 									</button>
-									<div data-rvt-disclosure-target>
+									<div class="rvt-disclosure__content" data-rvt-disclosure-target hidden>
 										<header>
 											{menuParent && (
 												<div>
@@ -212,6 +212,21 @@ const menuParent = menu.getParent();
 				grid-row: 1 / -1;
 				padding-block: var(--gap);
 				padding-inline-end: var(--gap);
+
+				.rvt-disclosure {
+					border: none;
+					margin-block-end: 0;
+					padding: 0;
+				}
+
+				.rvt-disclosure__toggle {
+					display: none;
+				}
+
+				.rvt-disclosure__content {
+					display: block;
+					margin-block-start: 0;
+				}
 			}
 
 			&:has(rvt-breadcrumbs) rvt-breadcrumbs,
@@ -238,40 +253,13 @@ const menuParent = menu.getParent();
 	rvt-prototype-related-nav {
 		nav {
 
-			details {
-				border: var(--border);
+			.rvt-disclosure {
 				margin-block-end: var(--rvt-size-24);
-				padding: var(--rvt-size-16);
+			}
 
-				summary {
-					display: flex;
-					font: var(--rvt-font-16-bold);
-					justify-content: space-between;
-
-					&::marker {
-						display: none;
-					}
-
-					&::after {
-						background-color: currentColor;
-						clip-path: path(var(--icon, var(--rvt-icon-chevron-down)));
-						content: "";
-						display: block;
-						height: var(--rvt-size-16);
-						margin-block: var(--rvt-size-4);
-						width: var(--rvt-size-16);
-					}
-				}
-
-				&:open summary {
-					--icon: var(--rvt-icon-chevron-up);
-					margin-block-end: var(--rvt-size-32);
-				}
-
-				&::details-content {
-					display: block;
-					color: blue;
-				}
+			.rvt-disclosure__content {
+				margin-block-start: var(--rvt-size-24);
+				margin-inline-start: 0;
 			}
 
 			:is(h2, ul) a {
@@ -369,10 +357,6 @@ const menuParent = menu.getParent();
 	.rvt-card-grid {
 		--gap: clamp(var(--rvt-size-16), 5vw, var(--rvt-size-40));
 		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-	}
-
-	main {
-		_padding-block-end: var(--rvt-size-32);
 	}
 </style>
 
