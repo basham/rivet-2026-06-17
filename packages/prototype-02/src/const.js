@@ -160,7 +160,7 @@ function getYear(date) {
 }
 
 export const menus = {
-	id: "",
+	id: "main",
 	label: site,
 	items: parseContent(content),
 };

@@ -15,9 +15,8 @@ export function getMenus(menus, Astro) {
 			id,
 			label,
 			main,
-			parent,
 			url,
-			items: []
+			items: [],
 		};
 		const items = _items.map((item) => getMenu(item, depth + 1, page));
 		const hasCurrent = items.some((item) => item.current);
@@ -27,6 +26,9 @@ export function getMenus(menus, Astro) {
 			hasChildren,
 			hasCurrent,
 			items,
+			get parent () {
+				return this.getParent();
+			}
 		};
 		pages.push(menu);
 		return menu;

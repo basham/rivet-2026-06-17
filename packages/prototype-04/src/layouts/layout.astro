@@ -24,6 +24,8 @@ if (menus.page) {
 
 const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
 const menuParent = menu.getParent();
+
+const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 ---
 
 <!doctype html>
@@ -34,7 +36,7 @@ const menuParent = menu.getParent();
 		<title>{docTitle}</title>
 	</head>
 	<body>
-		<Header menus={menus} />
+		<Header menus={topMenus} />
 		<div class="rvt-container">
 			<div class="layout-side">
 				{
