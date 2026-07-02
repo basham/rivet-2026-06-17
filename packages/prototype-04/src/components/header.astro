@@ -8,43 +8,80 @@ const { menus, theme = "light" } = Astro.props;
 
 <rvt-header class={`rvt-theme-${theme}`}>
 	<a class="rvt-skip-link" href="#main-content">Skip to main content</a>
-	<header class="rvt-container" data-trait-escape-close>
+	<header class="rvt-container">
 		<a class="rvt-lockup" href={getUrl()}>
 			<rvt-logo-iu tab></rvt-logo-iu>
 			<div class="rvt-lockup__body">
 				<div class="rvt-lockup__title">{site}</div>
 			</div>
 		</a>
-		<div data-rvt-header-menu>
-			<nav aria-label="Related">
-				<Drilldown menus={menus.all} />
-			</nav>
-		</div>
 		<button
-			aria-expanded="false"
 			class="rvt-button rvt-button--icon-only rvt-header__button"
-			data-trait-toggle-expanded
+			command="show-modal"
+			commandfor="rvt-header-menu-dialog"
 			data-rvt-header-menu-toggle
 		>
 			<span class="rvt-sr-only">Browse</span>
 		</button>
+		<dialog
+			aria-labelledby="rvt-header-menu-dialog"
+			id="rvt-header-menu-dialog"
+		>
+			<header>
+				<h1 id="rvt-header-menu-dialog-title">
+					<rvt-logo-iu></rvt-logo-iu>
+					Site menu
+				</h1>
+				<button
+					class="rvt-button rvt-button--icon-only rvt-header__button"
+					command="close"
+					commandfor="rvt-header-menu-dialog"
+				>
+					<rvt-icon name="close"></rvt-icon>
+					<span class="rvt-sr-only">Close</span>
+				</button>
+			</header>
+			<nav aria-label="Related">
+				<Drilldown menus={menus.all} />
+			</nav>
+		</dialog>
 	</header>
 </rvt-header>
 
 <style>
-	rvt-header {
-		nav {
-			display: none;
-		}
+	body:has(dialog[open]:modal) {
+		overflow: hidden;
 	}
 
-	body:has([data-rvt-header-menu-toggle][aria-expanded="true"]) {
-		rvt-header nav {
-			display: block;
+	#rvt-header-menu-dialog {
+		border: none;
+		box-shadow: var(--rvt-shadow-heavy);
+		height: 100vh;
+		inset: auto;
+		max-height: unset;
+		max-width: 30rem;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		position: fixed;
+		right: 0;
+		width: 100%;
+
+		&::backdrop {
+			background-color: rgba(0, 0, 0, 0.7);
+		}
+
+		> header {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			margin-block-end: var(--rvt-size-16);
+
+			h1 {
+				align-items: center;
+				display: flex;
+				font: var(--rvt-font-20-bold);
+				gap: var(--rvt-size-8);
+			}
 		}
 	}
 </style>
-
-<script>
-	import "@rivet-iu/core/src/components/header/header.ts";
-</script>
