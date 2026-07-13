@@ -54,15 +54,22 @@ const { menus, theme = "light" } = Astro.props;
 	}
 
 	#rvt-header-menu-dialog {
+		--padding-inline: clamp(var(--rvt-size-16), 4vw, var(--rvt-size-64));
+		--offset: max(0rem, calc(50vw - 45rem - var(--padding-inline)));
+		--padding-inline-bleed: calc(var(--padding-inline) + var(--offset));
+		background-color: var(--rvt-color-theme-background);
 		border: none;
 		box-shadow: var(--rvt-shadow-heavy);
 		height: 100vh;
 		inset: auto;
 		max-height: unset;
-		max-width: 30rem;
+		max-width: calc(var(--padding-inline-bleed) * 2 + 30rem);
 		overflow-y: auto;
 		overscroll-behavior: contain;
+		padding-block: var(--rvt-size-28);
+		padding-inline: var(--padding-inline-bleed);
 		position: fixed;
+		_right: max(0rem, calc(50vw - 45rem - var(--padding-inline)));
 		right: 0;
 		width: 100%;
 
