@@ -25,8 +25,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup pnpm and Node
-        uses: pnpm/setup@v1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: "11.13.0"
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "pnpm"
+          cache-dependency-path: ${{ env.BUILD_PATH }}/pnpm-lock.yaml
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Install dependencies
