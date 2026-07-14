@@ -7,10 +7,10 @@ importers:
     configDependencies: {}
     packageManagerDependencies:
       '@pnpm/exe':
-        specifier: 11.x
+        specifier: '>=11.13'
         version: 11.13.0
       pnpm:
-        specifier: 11.x
+        specifier: '>=11.13'
         version: 11.13.0
 
 packages:
@@ -226,7 +226,7 @@ importers:
   .:
     devDependencies:
       node:
-        specifier: runtime:24.x
+        specifier: runtime:24
         version: runtime:24.18.0
       rimraf:
         specifier: 'catalog:'
