@@ -17,12 +17,12 @@
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": "24.x",
+			"version": "24",
 			"onFail": "download"
 		},
 		"packageManager": {
 			"name": "pnpm",
-			"version": "11.x",
+			"version": ">=11.13",
 			"onFail": "download"
 		}
 	},
