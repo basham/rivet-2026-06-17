@@ -820,7 +820,7 @@ packages:
     resolution: {integrity: sha512-WT+Gb24i8hmvo85AIv2oEYouEXkRlKAlT9WaCa3TfLgNCN+GhrJOGZuIlMouAh38Qe4QOx26eUOVsq70qXrywA==}
 
   '@rivet-iu/core@https://codeload.github.com/indiana-university/rivet-source/tar.gz/7a63e0d379e47a36215c6c67beead004275bd243#path:/packages/core':
-    resolution: {gitHosted: true, integrity: sha512-ytw0GFnZHMBgMVBqNj7CfV201R+RUIhlatEOWrmDilgkOPIcdR/WxAcq2LiaoInTeOBi1vt1o7jkCwj+O2NeTg==, path: /packages/core, tarball: https://codeload.github.com/indiana-university/rivet-source/tar.gz/7a63e0d379e47a36215c6c67beead004275bd243}
+    resolution: {gitHosted: true, path: /packages/core, tarball: https://codeload.github.com/indiana-university/rivet-source/tar.gz/7a63e0d379e47a36215c6c67beead004275bd243}
     version: 3.0.0-alpha.10
 
   '@rivet-iu/tokens@https://codeload.github.com/indiana-university/rivet-source/tar.gz/7a63e0d379e47a36215c6c67beead004275bd243#path:/packages/tokens':
