@@ -8,49 +8,76 @@ const { menus, theme = "light" } = Astro.props;
 
 <rvt-header class={`rvt-theme-${theme}`}>
 	<a class="rvt-skip-link" href="#main-content">Skip to main content</a>
-	<header class="rvt-container">
-		<a class="rvt-lockup" href={getUrl()}>
-			<rvt-logo-iu tab></rvt-logo-iu>
-			<div class="rvt-lockup__body">
-				<div class="rvt-lockup__title">{site}</div>
-			</div>
-		</a>
-		<button
-			class="rvt-button rvt-button--icon-only rvt-header__button"
-			command="show-modal"
-			commandfor="rvt-header-menu-dialog"
-			data-rvt-header-menu-toggle
-		>
-			<span class="rvt-sr-only">Browse</span>
-		</button>
-		<dialog
-			aria-labelledby="rvt-header-menu-dialog"
-			id="rvt-header-menu-dialog"
-		>
-			<header>
-				<h1 id="rvt-header-menu-dialog-title">
-					<rvt-logo-iu></rvt-logo-iu>
-					Site menu
-				</h1>
-				<button
-					class="rvt-button rvt-button--icon-only rvt-header__button"
-					command="close"
-					commandfor="rvt-header-menu-dialog"
-				>
-					<rvt-icon name="close"></rvt-icon>
-					<span class="rvt-sr-only">Close</span>
-				</button>
-			</header>
-			<nav aria-label="Related">
-				<Drilldown menus={menus.all} />
-			</nav>
-		</dialog>
+	<header>
+		<div data-rvt-header-primary>
+			<a class="rvt-lockup" href={getUrl()}>
+				<rvt-logo-iu tab></rvt-logo-iu>
+				<div class="rvt-lockup__body">
+					<div class="rvt-lockup__title">{site}</div>
+				</div>
+			</a>
+			<button
+				class="rvt-button rvt-button--icon-only rvt-header__button"
+				command="show-modal"
+				commandfor="rvt-header-menu-dialog"
+				data-rvt-header-menu-toggle
+			>
+				<span class="rvt-sr-only">Browse</span>
+			</button>
+			<dialog
+				aria-labelledby="rvt-header-menu-dialog"
+				id="rvt-header-menu-dialog"
+			>
+				<header>
+					<h1 id="rvt-header-menu-dialog-title">
+						<rvt-logo-iu></rvt-logo-iu>
+						Site menu
+					</h1>
+					<button
+						class="rvt-button rvt-button--icon-only rvt-header__button"
+						command="close"
+						commandfor="rvt-header-menu-dialog"
+					>
+						<rvt-icon name="close"></rvt-icon>
+						<span class="rvt-sr-only">Close</span>
+					</button>
+				</header>
+				<nav aria-label="Related">
+					<Drilldown menus={menus.all} />
+				</nav>
+			</dialog>
+		</div>
+		<div data-rvt-header-secondary>
+			<slot />
+		</div>
 	</header>
 </rvt-header>
 
 <style>
 	body:has(dialog[open]:modal) {
 		overflow: hidden;
+	}
+
+	rvt-header {
+		> header {
+			display: block;
+			padding-block: var(--rvt-size-8);
+			padding-inline: var(--rvt-size-24);
+
+			> [data-rvt-header-primary] {
+				display: flex;
+				justify-content: space-between;
+				padding-block: var(--rvt-size-16);
+			}
+
+			> [data-rvt-header-secondary] {
+				padding-block: var(--rvt-size-8);
+			}
+		}
+	}
+
+	button[data-rvt-header-menu-toggle] {
+		margin: var(--rvt-size-4);
 	}
 
 	#rvt-header-menu-dialog {

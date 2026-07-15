@@ -36,301 +36,220 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 		<title>{docTitle}</title>
 	</head>
 	<body>
-		<Header menus={topMenus} />
-		<div class="rvt-container">
-			<div class="layout-side">
+		<Header menus={topMenus}>
+			{
+				!root && (
+					<rvt-breadcrumbs>
+						<nav aria-label="Breadcrumbs">
+							<ol class="rvt-breadcrumbs">
+								{breadcrumbs.map((item, i) => (
+									<li>
+										<a href={item.url}>
+											{i === 0 && <span class="rvt-sr-only">Home</span>}
+											{i > 0 && item.label}
+										</a>
+									</li>
+								))}
+								<li aria-current="page">{title}</li>
+							</ol>
+						</nav>
+					</rvt-breadcrumbs>
+				)
+			}
+		</Header>
+		<div class="layout-side">
+			<main id="main-content">
 				{
-					!root && (
+					!hideTitle && (
+						<div class="rvt-hero">
+							<div class="rvt-hero__body">
+								<h1 class="rvt-hero__title">Highlights in {title}</h1>
+							</div>
+						</div>
+					)
+				}
+				{hideTitle && <h1 class="rvt-sr-only">{title}</h1>}
+				{
+					menus.page?.articles && (
+						<div class="content">
+							{menus.page.articles.map((article: any) => (
+								<>
+									<h2>{article.label}</h2>
+									<p>{article.description}</p>
+								</>
+							))}
+						</div>
+					)
+				}
+				<slot />
+				{
+					menus.page.items && (
+						<div>
+							<ul class="rvt-card-grid rvt-m-tb-none">
+								{menus.page.items.map((item: any) => (
+									<li>
+										<div class="rvt-card">
+											<div class="rvt-card__body">
+												<h2 class="rvt-card__title">
+													<a href={item.url}>{item.label}</a>
+												</h2>
+												{item.articles && (
+													<div class="rvt-card__content">
+														{item.articles.map((article: any) => (
+															<p>{article.label}</p>
+														))}
+													</div>
+												)}
+											</div>
+										</div>
+									</li>
+								))}
+							</ul>
+						</div>
+					)
+				}
+			</main>
+			{
+				!root && (
+					<aside>
 						<rvt-prototype-related-nav>
 							<nav aria-labelledby="rvt-prototype-related-nav-heading">
-								<div class="rvt-disclosure" data-rvt-disclosure>
-									<button
-										aria-expanded="false"
-										class="rvt-disclosure__toggle"
-										data-rvt-disclosure-toggle
+								<h2 id="rvt-prototype-related-nav-heading">
+									Related
+								</h2>
+								{menu.parent && (
+									<a
+										class="rvt-button rvt-button--medium"
+										href={menu.parent.url || "#"}
 									>
-										Section menu
-									</button>
-									<div class="rvt-disclosure__content" data-rvt-disclosure-target hidden>
-										<header>
-											{menuParent && (
-												<div>
-													<a
-														class="rvt-button rvt-button--medium"
-														href={menuParent.url}
-													>
-														<rvt-icon name="chevron-left"></rvt-icon>
-														{menuParent.label}
-													</a>
-												</div>
-											)}
-											<h2 id="rvt-prototype-related-nav-heading">
-												<a href={menu.url}>{menu.label}</a>
-											</h2>
-										</header>
-										<ul>
-											{menu.items.map((item: any) => (
-												<li>
-													<a
-														aria-current={item.current ? "page" : null}
-														href={item.url || "#"}
-													>
-														{item.label}
-														{item.hasChildren && (
-															<rvt-icon name="chevron-right"></rvt-icon>
-														)}
-													</a>
-													{false && item.current && item.hasChildren && (
-														<ul>
-															{item.items.map((child: any) => (
-																<li>
-																	<a href={child.url || "#"}>{child.label}</a>
-																</li>
-															))}
-														</ul>
-													)}
-												</li>
-											))}
-										</ul>
-									</div>
-								</div>
-							</nav>
-						</rvt-prototype-related-nav>
-					)
-				}
-				{
-					!root && (
-						<rvt-breadcrumbs>
-							<nav aria-label="Breadcrumbs">
-								<ol class="rvt-breadcrumbs">
-									{breadcrumbs.map((item, i) => (
+										<rvt-icon name="arrow-left"></rvt-icon>
+										Back
+									</a>
+								)}
+								<ul>
+									{menu.items.map((item: any) => (
 										<li>
-											<a href={item.url}>
-												{i === 0 && <span class="rvt-sr-only">Home</span>}
-												{i > 0 && item.label}
+											<a
+												aria-current={item.current ? "page" : null}
+												href={item.url || "#"}
+											>
+												{item.label}
+												{false && item.hasChildren && (
+													<rvt-icon name="chevron-right"></rvt-icon>
+												)}
 											</a>
-										</li>
-									))}
-									<li aria-current="page">{title}</li>
-								</ol>
-							</nav>
-						</rvt-breadcrumbs>
-					)
-				}
-				<main id="main-content">
-					{
-						!hideTitle && (
-							<div class="rvt-hero">
-								<div class="rvt-hero__body">
-									<h1 class="rvt-hero__title">Highlights in {title}</h1>
-								</div>
-							</div>
-						)
-					}
-					{hideTitle && <h1 class="rvt-sr-only">{title}</h1>}
-					{
-						menus.page?.articles && (
-							<div class="content">
-								{menus.page.articles.map((article: any) => (
-									<>
-										<h2>{article.label}</h2>
-										<p>{article.description}</p>
-									</>
-								))}
-							</div>
-						)
-					}
-					<slot />
-					{
-						menus.page.items && (
-							<div>
-								<ul class="rvt-card-grid rvt-m-tb-none">
-									{menus.page.items.map((item: any) => (
-										<li>
-											<div class="rvt-card">
-												<div class="rvt-card__body">
-													<h2 class="rvt-card__title">
-														<a href={item.url}>{item.label}</a>
-													</h2>
-													{item.articles && (
-														<div class="rvt-card__content">
-															{item.articles.map((article: any) => (
-																<p>{article.label}</p>
-															))}
-														</div>
-													)}
-												</div>
-											</div>
+											{false && item.current && item.hasChildren && (
+												<ul>
+													{item.items.map((child: any) => (
+														<li>
+															<a href={child.url || "#"}>{child.label}</a>
+														</li>
+													))}
+												</ul>
+											)}
 										</li>
 									))}
 								</ul>
-							</div>
-						)
-					}
-				</main>
-			</div>
+							</nav>
+						</rvt-prototype-related-nav>
+					</aside>
+				)
+			}
 		</div>
 		<Footer />
 	</body>
 </html>
 
+<style is:global>
+	:is(rvt-header, .rvt-footer) .rvt-container {
+		max-width: unset;
+		padding-inline: var(--rvt-size-24);
+	}
+</style>
+
 <style>
-	.rvt-container:has(> .layout-side) {
+	*:has(> .layout-side) {
 		container-type: inline-size;
 	}
 
 	.layout-side {
-		--border: var(--rvt-size-1) solid var(--rvt-color-theme-ui);
-		--gap: var(--rvt-size-40);
-
-		rvt-prototype-related-nav {
-			_display: none;
-		}
-
-		rvt-breadcrumbs {
-			padding-block-end: var(--rvt-size-16);
-		}
-
 		main {
-			padding-block-end: var(--gap);
+			padding: var(--rvt-size-24);
 		}
 
 		.rvt-hero {
-			margin-block-end: var(--gap);
+			margin-block-end: var(--rvt-size-24);
+			margin-inline: unset;
+		}
+
+		aside {
+			background-color: var(--rvt-color-theme-background-strong);
+			border-block-start: var(--rvt-border);
+			padding: var(--rvt-size-24);
 		}
 	}
 
 	@container (width > 45rem) {
-		.layout-side:has(rvt-prototype-related-nav) {
+		.layout-side:has(aside) {
 			display: grid;
-			grid-template-columns: 20rem 1fr;
-			grid-template-rows: auto 1fr;
-
-			rvt-prototype-related-nav {
-				border-block-start: var(--border);
-				border-inline-end: var(--border);
-				display: block;
-				grid-column: 1 / 2;
-				grid-row: 1 / -1;
-				padding-block: var(--gap);
-				padding-inline-end: var(--gap);
-
-				.rvt-disclosure {
-					border: none;
-					margin-block-end: 0;
-					padding: 0;
-				}
-
-				.rvt-disclosure__toggle {
-					display: none;
-				}
-
-				.rvt-disclosure__content {
-					display: block;
-					margin-block-start: 0;
-				}
-			}
-
-			&:has(rvt-breadcrumbs) rvt-breadcrumbs,
-			&:not(:has(rvt-breadcrumbs)) main {
-				border-block-start: var(--border);
-				padding-block-start: var(--gap);
-			}
-
-			rvt-breadcrumbs {
-				grid-column: 2 / 3;
-				grid-row: 1 / 2;
-				padding-inline-start: var(--gap);
-			}
+			grid-template-columns: 1fr 20rem;
 
 			main {
+				grid-column: 1 / 2;
+				grid-row: 1 / 2;
+			}
+
+			aside {
+				background-color: transparent;
+				border-block-start: none;
+				display: block;
 				grid-column: 2 / 3;
-				grid-row: 2 / 3;
-				padding-block-end: var(--gap);
-				padding-inline-start: var(--gap);
+				grid-row: 1 / 2;
 			}
 		}
 	}
 
 	rvt-prototype-related-nav {
+		background-color: var(--rvt-color-theme-background);
+		border: var(--rvt-border);
+		display: block;
+		padding: var(--rvt-size-24);
+
 		nav {
-
-			.rvt-disclosure {
-				margin-block-end: var(--rvt-size-24);
-			}
-
-			.rvt-disclosure__content {
-				margin-block-start: var(--rvt-size-24);
-				margin-inline-start: 0;
-			}
-
-			:is(h2, ul) a {
-				color: unset;
-				display: block;
-				text-decoration: none;
-
-				&:visited {
-					color: inherit;
-				}
-
-				&:hover {
-					color: var(--rvt-color-theme-text-accent);
-					text-decoration: underline;
-				}
-
-				&[aria-current="page"] {
-					color: var(--rvt-color-theme-text-accent);
-					font: inherit;
-					font-variation-settings: var(--rvt-font-variation-grade);
-					text-decoration: underline;
-					text-underline-offset: var(--rvt-size-4);
-				}
-			}
-
-			header {
-				margin-block-end: var(--rvt-size-8);
-
-				:is(h2, h3, h4, h5, h6) {
-
-					&:not(:first-child) {
-						margin-block-start: var(--rvt-size-32);
-					}
-
-					a {
-						font: var(--rvt-font-18-bold);
-					}
-				}
+			h2 {
+				font: var(--rvt-font-18-bold);
+				margin-block-end: var(--rvt-size-16);
 			}
 
 			ul {
 				list-style-type: "";
-				margin: 0;
+				margin: var(--rvt-size-24) 0 0;
 				padding: 0;
-			}
 
-			ul {
-				border-block-start: var(--rvt-size-1) solid var(--rvt-color-theme-ui);
+				li {
+					margin-block-start: var(--rvt-size-8);
+				}
 
-				> li {
-					border-block-end: var(--rvt-size-1) solid var(--rvt-color-theme-ui);
-					border-block-start: none;
-					padding-block: var(--rvt-size-8);
+				a {
+					color: unset;
+					display: block;
+					text-decoration: none;
 
-					a {
-						display: flex;
-						justify-content: space-between;
-
-						rvt-icon {
-							padding-block: var(--rvt-size-4);
-						}
+					&:visited {
+						color: inherit;
 					}
 
-					li {
-						padding-block-start: var(--rvt-size-8);
+					&:hover {
+						color: var(--rvt-color-theme-text-accent);
+						text-decoration: underline;
+					}
 
-						> a {
-							padding-inline-start: var(--rvt-size-16);
-						}
+					&[aria-current="page"] {
+						color: var(--rvt-color-theme-text-accent);
+						font: inherit;
+						font-variation-settings: var(--rvt-font-variation-grade);
+						text-decoration: underline;
+						text-underline-offset: var(--rvt-size-4);
 					}
 				}
 			}
