@@ -2,7 +2,7 @@ export const site = "Hoosier Highlights";
 
 const startDate = "1970-01-01";
 const endDate = getYMD();
-const articleFillPercentage = 0.005;
+const articleFillPercentage = 0.05;
 const content = `
 2026-01-19
 IU wins the national football championship

@@ -9,47 +9,42 @@ const { menus, theme = "light" } = Astro.props;
 <rvt-header class={`rvt-theme-${theme}`}>
 	<a class="rvt-skip-link" href="#main-content">Skip to main content</a>
 	<header>
-		<div data-rvt-header-primary>
-			<a class="rvt-lockup" href={getUrl()}>
-				<rvt-logo-iu tab></rvt-logo-iu>
-				<div class="rvt-lockup__body">
-					<div class="rvt-lockup__title">{site}</div>
-				</div>
-			</a>
-			<button
-				class="rvt-button rvt-button--icon-only rvt-header__button"
-				command="show-modal"
-				commandfor="rvt-header-menu-dialog"
-				data-rvt-header-menu-toggle
-			>
-				<span class="rvt-sr-only">Browse</span>
-			</button>
-			<dialog
-				aria-labelledby="rvt-header-menu-dialog"
-				id="rvt-header-menu-dialog"
-			>
-				<header>
-					<h1 id="rvt-header-menu-dialog-title">
-						<rvt-logo-iu></rvt-logo-iu>
-						Site menu
-					</h1>
-					<button
-						class="rvt-button rvt-button--icon-only rvt-header__button"
-						command="close"
-						commandfor="rvt-header-menu-dialog"
-					>
-						<rvt-icon name="close"></rvt-icon>
-						<span class="rvt-sr-only">Close</span>
-					</button>
-				</header>
-				<nav aria-label="Related">
-					<Drilldown menus={menus.all} />
-				</nav>
-			</dialog>
-		</div>
-		<div data-rvt-header-secondary>
-			<slot />
-		</div>
+		<a class="rvt-lockup" href={getUrl()}>
+			<rvt-logo-iu tab></rvt-logo-iu>
+			<div class="rvt-lockup__body">
+				<div class="rvt-lockup__title">{site}</div>
+			</div>
+		</a>
+		<button
+			class="rvt-button rvt-button--icon-only rvt-header__button"
+			command="show-modal"
+			commandfor="rvt-header-menu-dialog"
+			data-rvt-header-menu-toggle
+		>
+			<span class="rvt-sr-only">Browse</span>
+		</button>
+		<dialog
+			aria-labelledby="rvt-header-menu-dialog"
+			id="rvt-header-menu-dialog"
+		>
+			<header>
+				<h1 id="rvt-header-menu-dialog-title">
+					<rvt-logo-iu></rvt-logo-iu>
+					Site menu
+				</h1>
+				<button
+					class="rvt-button rvt-button--icon-only rvt-header__button"
+					command="close"
+					commandfor="rvt-header-menu-dialog"
+				>
+					<rvt-icon name="close"></rvt-icon>
+					<span class="rvt-sr-only">Close</span>
+				</button>
+			</header>
+			<nav aria-label="Related">
+				<Drilldown menus={menus.all} />
+			</nav>
+		</dialog>
 	</header>
 </rvt-header>
 
@@ -60,43 +55,25 @@ const { menus, theme = "light" } = Astro.props;
 
 	rvt-header {
 		> header {
-			display: block;
-			padding-block: var(--rvt-size-8);
-			padding-inline: var(--rvt-size-24);
-
-			> [data-rvt-header-primary] {
-				display: flex;
-				justify-content: space-between;
-				padding-block: var(--rvt-size-16);
-			}
-
-			> [data-rvt-header-secondary] {
-				padding-block: var(--rvt-size-8);
-			}
+			display: flex;
+			justify-content: space-between;
+			padding: var(--rvt-size-24);
 		}
 	}
 
-	button[data-rvt-header-menu-toggle] {
-		margin: var(--rvt-size-4);
-	}
-
 	#rvt-header-menu-dialog {
-		--padding-inline: clamp(var(--rvt-size-16), 4vw, var(--rvt-size-64));
-		--offset: max(0rem, calc(50vw - 45rem - var(--padding-inline)));
-		--padding-inline-bleed: calc(var(--padding-inline) + var(--offset));
 		background-color: var(--rvt-color-theme-background);
 		border: none;
 		box-shadow: var(--rvt-shadow-heavy);
 		height: 100vh;
 		inset: auto;
 		max-height: unset;
-		max-width: calc(var(--padding-inline-bleed) * 2 + 30rem);
+		max-width: 30rem;
 		overflow-y: auto;
 		overscroll-behavior: contain;
 		padding-block: var(--rvt-size-28);
-		padding-inline: var(--padding-inline-bleed);
+		padding-inline: var(--rvt-size-24);
 		position: fixed;
-		_right: max(0rem, calc(50vw - 45rem - var(--padding-inline)));
 		right: 0;
 		width: 100%;
 

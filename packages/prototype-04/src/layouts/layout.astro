@@ -36,7 +36,45 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 		<title>{docTitle}</title>
 	</head>
 	<body>
-		<Header menus={topMenus}>
+		<Header menus={topMenus} />
+		<div class="layout">
+			{
+				!root && menu.parent && (
+					<rvt-prototype-section-nav>
+						<button
+							class="rvt-button rvt-button--small"
+							popovertarget="rvt-section-nav"
+						>
+							In this section
+							<rvt-icon name="chevron-down"></rvt-icon>
+						</button>
+						<nav
+							aria-label="Section nav"
+							id="rvt-section-nav"
+							popover
+						>
+							{menuParent.id !== "main" && (
+								<a href={menuParent.url}>
+									<rvt-icon name="arrow-left"></rvt-icon>
+									{menuParent.label}
+								</a>
+							)}
+							<ul>
+								{menu.parent.items.map((item: any, i: number) => (
+									<li>
+										<a
+											aria-current={item.current ? "page" : null}
+											href={item.url}
+										>
+											{item.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</nav>
+					</rvt-prototype-section-nav>
+				)
+			}
 			{
 				!root && (
 					<rvt-breadcrumbs>
@@ -56,8 +94,6 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 					</rvt-breadcrumbs>
 				)
 			}
-		</Header>
-		<div class="layout-side">
 			<main id="main-content">
 				{
 					!hideTitle && (
@@ -117,15 +153,6 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 								<h2 id="rvt-prototype-related-nav-heading">
 									Related
 								</h2>
-								{menu.parent && (
-									<a
-										class="rvt-button rvt-button--medium"
-										href={menu.parent.url || "#"}
-									>
-										<rvt-icon name="arrow-left"></rvt-icon>
-										Back
-									</a>
-								)}
 								<ul>
 									{menu.items.map((item: any) => (
 										<li>
@@ -134,19 +161,7 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 												href={item.url || "#"}
 											>
 												{item.label}
-												{false && item.hasChildren && (
-													<rvt-icon name="chevron-right"></rvt-icon>
-												)}
 											</a>
-											{false && item.current && item.hasChildren && (
-												<ul>
-													{item.items.map((child: any) => (
-														<li>
-															<a href={child.url || "#"}>{child.label}</a>
-														</li>
-													))}
-												</ul>
-											)}
 										</li>
 									))}
 								</ul>
@@ -168,45 +183,111 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 </style>
 
 <style>
-	*:has(> .layout-side) {
-		container-type: inline-size;
+	.layout {
+		display: grid;
+		grid-template-areas:
+			"section-nav breadcrumbs"
+			"main main"
+			"aside aside";
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto auto auto;
 	}
 
-	.layout-side {
-		main {
-			padding: var(--rvt-size-24);
+	rvt-prototype-section-nav {
+		display: block;
+		grid-area: section-nav;
+		padding-inline: var(--rvt-size-24);
+
+		nav {
+			h2 {
+				font: var(--rvt-font-18-bold);
+				margin-block-end: var(--rvt-size-16);
+			}
+
+			a {
+				color: unset;
+				display: block;
+				font: var(--rvt-font-18);
+				text-decoration: none;
+
+				&:visited {
+					color: inherit;
+				}
+
+				&:hover {
+					color: var(--rvt-color-theme-text-accent);
+					text-decoration: underline;
+				}
+
+				&[aria-current="page"] {
+					color: var(--rvt-color-theme-text-accent);
+					font-variation-settings: var(--rvt-font-variation-grade);
+					text-decoration: underline;
+					text-underline-offset: var(--rvt-size-4);
+				}
+			}
+
+			> a {
+				align-items: center;
+				display: flex;
+				font: var(--rvt-font-18-bold);
+				gap: var(--rvt-size-8);
+			}
+
+			ul {
+				list-style-type: "";
+				margin: 0;
+				padding: 0;
+
+				&:not(:first-child) {
+					margin-block-start: var(--rvt-size-16);
+				}
+
+				li:not(:first-child) {
+					margin-block-start: var(--rvt-size-8);
+				}
+			}
 		}
+	}
+
+	rvt-breadcrumbs {
+		align-self: center;
+		display: block;
+		grid-area: breadcrumbs;
+
+		nav {
+			display: flex;
+		}
+	}
+
+	main {
+		grid-area: main;
+		padding: var(--rvt-size-24);
 
 		.rvt-hero {
 			margin-block-end: var(--rvt-size-24);
 			margin-inline: unset;
+			padding-inline: 0;
 		}
 
-		aside {
-			background-color: var(--rvt-color-theme-background-strong);
-			border-block-start: var(--rvt-border);
-			padding: var(--rvt-size-24);
+		.content {
+			h2 {
+				font: var(--rvt-font-20-fluid-black);
+				margin-block-start: var(--rvt-size-32);
+			}
+		}
+
+		.rvt-card-grid {
+			--gap: clamp(var(--rvt-size-16), 5vw, var(--rvt-size-40));
+			grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 		}
 	}
 
-	@container (width > 45rem) {
-		.layout-side:has(aside) {
-			display: grid;
-			grid-template-columns: 1fr 20rem;
-
-			main {
-				grid-column: 1 / 2;
-				grid-row: 1 / 2;
-			}
-
-			aside {
-				background-color: transparent;
-				border-block-start: none;
-				display: block;
-				grid-column: 2 / 3;
-				grid-row: 1 / 2;
-			}
-		}
+	aside {
+		background-color: var(--rvt-color-theme-background-strong);
+		border-block-start: var(--rvt-border);
+		grid-area: aside;
+		padding: var(--rvt-size-24);
 	}
 
 	rvt-prototype-related-nav {
@@ -217,13 +298,12 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 
 		nav {
 			h2 {
-				font: var(--rvt-font-18-bold);
-				margin-block-end: var(--rvt-size-16);
+				font: var(--rvt-font-16-bold);
 			}
 
 			ul {
 				list-style-type: "";
-				margin: var(--rvt-size-24) 0 0;
+				margin: 0;
 				padding: 0;
 
 				li {
@@ -233,6 +313,7 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 				a {
 					color: unset;
 					display: block;
+					font: var(--rvt-font-14);
 					text-decoration: none;
 
 					&:visited {
@@ -256,31 +337,99 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 		}
 	}
 
-	rvt-breadcrumbs {
-		display: block;
+	@media (width > 50rem) {
+		.layout:has(aside) {
+			display: grid;
+			border-block-start: var(--rvt-border);
+			grid-template-areas:
+				"section-nav breadcrumbs"
+				"section-nav main"
+				"section-nav aside";
+			grid-template-columns: min(30vw, 18rem) 1fr;
+			grid-template-rows: auto auto 1fr;
 
-		nav {
-			display: flex;
+			rvt-prototype-section-nav {
+				border-inline-end: var(--rvt-border);
+				padding: var(--rvt-size-24);
+
+				button[popovertarget] {
+					display: none;
+				}
+			}
+
+			rvt-breadcrumbs {
+				padding-block-start: var(--rvt-size-24);
+				padding-inline: var(--rvt-size-24);
+			}
 		}
 	}
 
-	.rvt-hero {
-		padding-inline: 0;
-	}
+	@media (width > 80rem) {
+		.layout:has(aside) {
+			display: grid;
+			border-block-start: var(--rvt-border);
+			grid-template-areas:
+				"section-nav breadcrumbs aside"
+				"section-nav main aside";
+			grid-template-columns: 18rem 1fr 18rem;
+			grid-template-rows: auto 1fr;
 
-	.content {
-		h2 {
-			font: var(--rvt-font-20-fluid-black);
-			margin-block-start: var(--rvt-size-32);
+			:is(rvt-breadcrumbs, main) {
+				justify-self: center;
+				max-width: 80rem;
+				width: 100%;
+			}
+
+			aside {
+				border-block-start: none;
+				border-inline-start: var(--rvt-border);
+				display: block;
+			}
 		}
-	}
-
-	.rvt-card-grid {
-		--gap: clamp(var(--rvt-size-16), 5vw, var(--rvt-size-40));
-		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 	}
 </style>
 
 <script>
 	import "@rivet-iu/core";
+</script>
+
+<script>
+	const popover = document.getElementById("rvt-section-nav");
+	if (popover) {
+		popover.addEventListener('beforetoggle', (event) => {
+			if (event.newState === 'open') {
+				requestAnimationFrame(() => {
+					const firstFocusable = popover.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') as HTMLElement;
+					if (firstFocusable) {
+						firstFocusable.focus();
+					} else {
+						popover.focus();
+					}
+				});
+			}
+		});
+
+		popover.addEventListener("focusout", (event) => {
+			if (!popover.contains(event.relatedTarget as Node)) {
+				popover.hidePopover();
+			}
+		});
+
+		const mq = window.matchMedia("(width > 50rem)");
+
+		function handleViewportChange(matches: Boolean) {
+			if (!popover) {
+				return;
+			}
+			if (matches) {
+				popover.removeAttribute("popover");
+			} else {
+				popover.setAttribute("popover", "auto");
+				popover.hidePopover();
+			}
+		}
+
+		handleViewportChange(mq.matches);
+		mq.addEventListener("change", (e) => handleViewportChange(e.matches));
+	}
 </script>
