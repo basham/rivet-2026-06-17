@@ -22,7 +22,7 @@ if (menus.page) {
 	}
 }
 
-const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
+const menu = menus.page;
 const menuParent = menu.getParent();
 
 const topMenus = getMenus(_menus, { url: { pathname: "/" } });
@@ -146,7 +146,7 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 				}
 			</main>
 			{
-				!root && (
+				!root && menu.items.length > 0 && (
 					<aside>
 						<rvt-prototype-related-nav>
 							<nav aria-labelledby="rvt-prototype-related-nav-heading">
@@ -184,21 +184,34 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 
 <style>
 	.layout {
-		display: grid;
-		grid-template-areas:
-			"section-nav breadcrumbs"
-			"main main"
-			"aside aside";
-		grid-template-columns: auto 1fr;
-		grid-template-rows: auto auto auto;
+		display: flex;
+		flex-wrap: wrap;
 	}
 
 	rvt-prototype-section-nav {
 		display: block;
 		grid-area: section-nav;
-		padding-inline: var(--rvt-size-24);
+		padding-block-end: var(--rvt-size-16);
+		padding-inline: var(--rvt-size-24) 0;
+
+		button[popovertarget] {
+			anchor-name: --button;
+		}
 
 		nav {
+			&[popover] {
+				border: var(--rvt-border);
+				box-shadow: var(--rvt-shadow-standard);
+				inset: auto;
+				left: anchor(--button left);
+				margin: var(--rvt-size-8) 0 0;
+				padding: var(--rvt-size-24);
+				position: absolute;
+				position-anchor: --button;
+				top: anchor(--button bottom);
+				width: calc(100vw - var(--rvt-size-48));
+			}
+
 			h2 {
 				font: var(--rvt-font-18-bold);
 				margin-block-end: var(--rvt-size-16);
@@ -254,6 +267,8 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 		align-self: center;
 		display: block;
 		grid-area: breadcrumbs;
+		padding-block-end: var(--rvt-size-16);
+		padding-inline: var(--rvt-size-24);
 
 		nav {
 			display: flex;
@@ -261,8 +276,10 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 	}
 
 	main {
+		flex-basis: 100%;
 		grid-area: main;
-		padding: var(--rvt-size-24);
+		padding-block: var(--rvt-size-8) var(--rvt-size-24);
+		padding-inline: var(--rvt-size-24);
 
 		.rvt-hero {
 			margin-block-end: var(--rvt-size-24);
@@ -284,17 +301,17 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 	}
 
 	aside {
-		background-color: var(--rvt-color-theme-background-strong);
-		border-block-start: var(--rvt-border);
+		flex-basis: 100%;
 		grid-area: aside;
-		padding: var(--rvt-size-24);
+		padding-block: 0 var(--rvt-size-24);
+		padding-inline: var(--rvt-size-24);
 	}
 
 	rvt-prototype-related-nav {
 		background-color: var(--rvt-color-theme-background);
-		border: var(--rvt-border);
+		border-block-start: var(--rvt-border);
 		display: block;
-		padding: var(--rvt-size-24);
+		padding-block-start: var(--rvt-size-24);
 
 		nav {
 			h2 {
@@ -302,12 +319,15 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			}
 
 			ul {
+				column-count: auto;
+				column-gap: var(--rvt-size-24);
+				column-width: 20ch;
 				list-style-type: "";
 				margin: 0;
 				padding: 0;
 
 				li {
-					margin-block-start: var(--rvt-size-8);
+					padding-block-start: var(--rvt-size-8);
 				}
 
 				a {
@@ -327,7 +347,6 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 
 					&[aria-current="page"] {
 						color: var(--rvt-color-theme-text-accent);
-						font: inherit;
 						font-variation-settings: var(--rvt-font-variation-grade);
 						text-decoration: underline;
 						text-underline-offset: var(--rvt-size-4);
@@ -338,7 +357,7 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 	}
 
 	@media (width > 50rem) {
-		.layout:has(aside) {
+		.layout {
 			display: grid;
 			border-block-start: var(--rvt-border);
 			grid-template-areas:
@@ -365,25 +384,47 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 	}
 
 	@media (width > 80rem) {
-		.layout:has(aside) {
+		.layout {
 			display: grid;
 			border-block-start: var(--rvt-border);
 			grid-template-areas:
-				"section-nav breadcrumbs aside"
-				"section-nav main aside";
-			grid-template-columns: 18rem 1fr 18rem;
+				"section-nav breadcrumbs"
+				"section-nav main";
+			grid-template-columns: 18rem 1fr;
 			grid-template-rows: auto 1fr;
+
+			&:has(aside) {
+				grid-template-areas:
+					"section-nav breadcrumbs breadcrumbs"
+					"section-nav main aside";
+				grid-template-columns: 18rem 1fr 18rem;
+			}
 
 			:is(rvt-breadcrumbs, main) {
 				justify-self: center;
 				max-width: 80rem;
+				padding-inline: var(--rvt-size-48);
 				width: 100%;
 			}
 
+			rvt-breadcrumbs {
+				padding-block-start: var(--rvt-size-48);
+			}
+
+			main {
+				padding-block-end: var(--rvt-size-48);
+			}
+
 			aside {
+				padding-block: var(--rvt-size-24) var(--rvt-size-48);
+				padding-inline: 0 var(--rvt-size-48);
+			}
+
+			rvt-prototype-related-nav {
 				border-block-start: none;
 				border-inline-start: var(--rvt-border);
-				display: block;
+				padding-block-start: 0;
+				padding-inline-start: var(--rvt-size-24);
 			}
 		}
 	}
