@@ -361,11 +361,19 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			display: grid;
 			border-block-start: var(--rvt-border);
 			grid-template-areas:
-				"section-nav breadcrumbs"
-				"section-nav main"
-				"section-nav aside";
-			grid-template-columns: min(30vw, 18rem) 1fr;
+				"breadcrumbs"
+				"main"
+				"aside";
+			grid-template-columns: 1fr;
 			grid-template-rows: auto auto 1fr;
+
+			&:has(rvt-prototype-section-nav) {
+				grid-template-areas:
+					"section-nav breadcrumbs"
+					"section-nav main"
+					"section-nav aside";
+				grid-template-columns: min(30vw, 18rem) 1fr;
+			}
 
 			rvt-prototype-section-nav {
 				border-inline-end: var(--rvt-border);
@@ -388,14 +396,28 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			display: grid;
 			border-block-start: var(--rvt-border);
 			grid-template-areas:
-				"section-nav breadcrumbs"
-				"section-nav main";
-			grid-template-columns: 18rem 1fr;
+				"breadcrumbs"
+				"main";
+			grid-template-columns: 1fr;
 			grid-template-rows: auto 1fr;
 
-			&:has(aside) {
+			&:has(rvt-prototype-section-nav):not(:has(aside)) {
 				grid-template-areas:
-					"section-nav breadcrumbs breadcrumbs"
+					"section-nav breadcrumbs"
+					"section-nav main";
+				grid-template-columns: 18rem 1fr;
+			}
+
+			&:not(:has(rvt-prototype-section-nav)):has(aside) {
+				grid-template-areas:
+					"breadcrumbs aside"
+					"main aside";
+				grid-template-columns: 1fr 18rem;
+			}
+
+			&:has(rvt-prototype-section-nav):has(aside) {
+				grid-template-areas:
+					"section-nav breadcrumbs ."
 					"section-nav main aside";
 				grid-template-columns: 18rem 1fr 18rem;
 			}
