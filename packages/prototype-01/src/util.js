@@ -5,7 +5,7 @@ export function getMenus(menus, Astro) {
 		const { id: _id, label = "", items: _items = [], ...other } = data;
 		const main = depth === 0;
 		const id = _id ?? toSlug(label);
-		const url = getUrl(id);
+		const url = getUrl(id === "main" ? "" : id);
 		const current = url === removeEnd(Astro?.url?.pathname, "/");
 		const page = {
 			...other,
