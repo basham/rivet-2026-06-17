@@ -243,6 +243,9 @@ importers:
       '@repo/prototype-03':
         specifier: 'workspace:'
         version: link:../prototype-03
+      '@repo/prototype-04':
+        specifier: 'workspace:'
+        version: link:../prototype-04
       '@rivet-iu/core':
         specifier: 'catalog:'
         version: https://codeload.github.com/indiana-university/rivet-source/tar.gz/7a63e0d379e47a36215c6c67beead004275bd243#path:/packages/core

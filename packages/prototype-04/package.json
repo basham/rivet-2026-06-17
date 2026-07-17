@@ -1,6 +1,6 @@
 {
 	"name": "@repo/prototype-04",
-	"description": "Hoosier Highlights with side nav",
+	"description": "Hoosier Highlights with side and related nav",
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",

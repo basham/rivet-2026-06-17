@@ -4,6 +4,7 @@ import pkgRoot from "#root/package.json";
 import pkg1 from "@repo/prototype-01/package.json";
 import pkg2 from "@repo/prototype-02/package.json";
 import pkg3 from "@repo/prototype-03/package.json";
+import pkg4 from "@repo/prototype-04/package.json";
 
 const { BASE_URL } = import.meta.env;
 const base = BASE_URL === "/" ? "" : BASE_URL;
@@ -11,7 +12,8 @@ const { description } = pkgRoot;
 const prototypes = [
 	pkg1,
 	pkg2,
-	pkg3
+	pkg3,
+	pkg4,
 ].map((p) => {
 	const { description: label, name } = p;
 	const url = name.replace("@repo", base);

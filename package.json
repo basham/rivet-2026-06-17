@@ -5,6 +5,7 @@
 	"license": "BSD-3-Clause",
 	"type": "module",
 	"scripts": {
+		"dev:main": "pnpm --filter @repo/main dev",
 		"dev:01": "pnpm --filter @repo/prototype-01 dev",
 		"dev:02": "pnpm --filter @repo/prototype-02 dev",
 		"dev:03": "pnpm --filter @repo/prototype-03 dev",
