@@ -8,7 +8,7 @@ import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
 const menus = getMenus(_menus, Astro);
-const { label: title } = menus.page;
+const { label: title, content, ...props } = menus.page;
 const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
 const hideTitle = Astro.slots.has("default");
@@ -97,9 +97,10 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			<main id="main-content">
 				{
 					!hideTitle && (
-						<div class="rvt-hero">
+						<div class="rvt-hero rvt-hero--feature">
 							<div class="rvt-hero__body">
-								<h1 class="rvt-hero__title">Highlights in {title}</h1>
+								<h1 class="rvt-hero__title">{content.h1}</h1>
+								<p class="rvt-hero__teaser">{content.intro}</p>
 							</div>
 						</div>
 					)
@@ -117,6 +118,10 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 						</div>
 					)
 				}
+				<div class="rvt-rich-text">
+					<h2>{content.h2}</h2>
+					<p>{content.body}</p>
+				</div>
 				<slot />
 				{
 					menus.page.items && (

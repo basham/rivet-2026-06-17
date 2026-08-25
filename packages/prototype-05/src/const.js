@@ -3,25 +3,42 @@ import path from "node:path";
 import { parseHTML } from "linkedom";
 import { toSlug } from "./util.js";
 
-export async function getData() {
+export const site = "Indiana Zoouniversity";
+export const menus = await getData();
+
+async function getData() {
+	const MAIN = "main";
 	const filePath = path.resolve("./data.html");
 	const rawHtml = await fs.readFile(filePath, "utf-8");
 	const { document } = parseHTML(rawHtml);
+
+	let groups = {};
+
 	const pages = document.querySelectorAll("article.page").map((el) => {
 		const label = el.querySelector("h3").textContent;
 		const id = toSlug(label);
-		const location = `main.${el.querySelector(".pnum").textContent}`;
+		const location = `${MAIN}.${el.querySelector(".pnum").textContent}`;
 		const content = parseDL(el.querySelector("dl"));
-		return { id, label, location, content };
+		return {
+			id,
+			label,
+			location,
+			content,
+			get items() {
+				return groups[location] || [];
+			},
+		};
 	});
-	const groups = Object.groupBy(pages, (page) =>
+
+	groups = Object.groupBy(pages, (page) =>
 		page.location.replace(/\.\d+$/, "")
 	);
-	const pagesWithItems = pages.map((page) => {
-		const items = groups[page.location] || [];
-		return { ...page, items };
-	})
-	return pagesWithItems;
+
+	return {
+		id: MAIN,
+		label: site,
+		items: groups[MAIN],
+	};
 }
 
 function parseDL(dl) {
@@ -40,8 +57,3 @@ function parseDL(dl) {
 
 	return result;
 }
-
-export const menus = await getData();
-
-export const site = "Indiana Zoouniversity";
-

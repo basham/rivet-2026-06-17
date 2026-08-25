@@ -4,7 +4,6 @@ import { menus } from "../const.js";
 import { getMenus } from "../util.js";
 
 export function getStaticPaths() {
-	console.log("###", getMenus(menus).pages.length);
 	return getMenus(menus).pages.map((data) => {
 		const { id: path } = data;
 		const params = { path };
