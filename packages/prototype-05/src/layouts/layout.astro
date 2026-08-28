@@ -8,7 +8,7 @@ import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
 const menus = getMenus(_menus, Astro);
-const { label: title, content, ...props } = menus.page;
+const { label: title, content = {}, ...props } = menus.page;
 const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
 const hideTitle = Astro.slots.has("default");
