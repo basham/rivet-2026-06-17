@@ -45,10 +45,21 @@ const { menus, theme = "light" } = Astro.props;
 				<Drilldown menus={menus.all} />
 			</nav>
 		</dialog>
+		<nav>
+			<ul>
+				{menus.main.items.map((item: any) => (
+					<li>
+						<a href={item.url}>
+							{item.label}
+						</a>
+					</li>
+				))}
+			</ul>
+		</nav>
 	</header>
 </rvt-header>
 
-<style>
+<style is:global>
 	body:has(dialog[open]:modal) {
 		overflow: hidden;
 	}
@@ -56,8 +67,33 @@ const { menus, theme = "light" } = Astro.props;
 	rvt-header {
 		> header {
 			display: flex;
+			flex-wrap: wrap;
 			justify-content: space-between;
 			padding: var(--rvt-size-24);
+
+			> nav {
+				flex-basis: 100%;
+
+				ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: var(--rvt-size-8) var(--rvt-size-24);
+					list-style-type: "";
+					margin: 0;
+					padding: 0;
+				}
+
+				a {
+					color: inherit;
+					font: var(--rvt-font-14);
+					text-decoration: none;
+
+					&:hover {
+						color: var(--rvt-color-theme-text-accent);
+						text-decoration: underline;
+					}
+				}
+			}
 		}
 	}
 

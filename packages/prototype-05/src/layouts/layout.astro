@@ -2,29 +2,29 @@
 import "@rivet-iu/core/dist/rivet.css";
 import "@rivet-iu/core/dist/rivet-icons.css";
 import "@rivet-iu/core/dist/rivet-stickers.css";
-import Footer from "@rivet-iu/core/src/components/footer/footer.astro";
+import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
 const menus = getMenus(_menus, Astro);
-const { label: title, content = {}, ...props } = menus.page;
+const { page } = menus;
+const { label: title, content = {}, ...props } = page;
 const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
 const hideTitle = Astro.slots.has("default");
 const breadcrumbs = [];
 
-if (menus.page) {
-	let parent = menus.page.getParent();
+if (page) {
+	let parent = page.getParent();
 	while (parent) {
 		breadcrumbs.unshift(parent);
 		parent = parent.getParent();
 	}
 }
 
-const menu = menus.page;
+const menu = page.hasChildren ? page : page.getParent();
 const menuParent = menu.getParent();
-
 const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 ---
 
@@ -53,20 +53,29 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 							id="rvt-section-nav"
 							popover
 						>
-							{menuParent.id !== "main" && (
-								<a href={menuParent.url}>
-									<rvt-icon name="arrow-left"></rvt-icon>
-									{menuParent.label}
-								</a>
-							)}
+							<a href={menuParent.url}>
+								<rvt-icon name="arrow-left"></rvt-icon>
+								{menuParent.id === "main" ? "Home" : menuParent.label}
+							</a>
+							<h2>
+								{menu.current && menu.label}
+								{!menu.current && (
+									<a href={menu.url}>
+										{menu.label}
+									</a>
+								)}
+							</h2>
 							<ul>
-								{menu.parent.items.map((item: any, i: number) => (
+								{menu.items.map((item: any, i: number) => (
 									<li>
 										<a
 											aria-current={item.current ? "page" : null}
 											href={item.url}
 										>
 											{item.label}
+											{item.hasChildren && (
+												<rvt-icon name="chevron-right"></rvt-icon>
+											)}
 										</a>
 									</li>
 								))}
@@ -97,7 +106,11 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			<main id="main-content">
 				{
 					!hideTitle && (
-						<div class="rvt-hero rvt-hero--feature">
+						<div class:list={{
+							"rvt-hero": true,
+							"rvt-hero--statement": menus.page.depth === 0,
+							"rvt-hero--feature": menus.page.depth === 1,
+						}}>
 							<div class="rvt-hero__body">
 								<h1 class="rvt-hero__title">{content.h1}</h1>
 								<p class="rvt-hero__teaser">{content.intro}</p>
@@ -123,60 +136,9 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 					<p>{content.body}</p>
 				</div>
 				<slot />
-				{
-					menus.page.items && (
-						<div>
-							<ul class="rvt-card-grid rvt-m-tb-none">
-								{menus.page.items.map((item: any) => (
-									<li>
-										<div class="rvt-card">
-											<div class="rvt-card__body">
-												<h2 class="rvt-card__title">
-													<a href={item.url}>{item.label}</a>
-												</h2>
-												{item.articles && (
-													<div class="rvt-card__content">
-														{item.articles.map((article: any) => (
-															<p>{article.label}</p>
-														))}
-													</div>
-												)}
-											</div>
-										</div>
-									</li>
-								))}
-							</ul>
-						</div>
-					)
-				}
 			</main>
-			{
-				!root && menu.items.length > 0 && (
-					<aside>
-						<rvt-prototype-related-nav>
-							<nav aria-labelledby="rvt-prototype-related-nav-heading">
-								<h2 id="rvt-prototype-related-nav-heading">
-									Related
-								</h2>
-								<ul>
-									{menu.items.map((item: any) => (
-										<li>
-											<a
-												aria-current={item.current ? "page" : null}
-												href={item.url || "#"}
-											>
-												{item.label}
-											</a>
-										</li>
-									))}
-								</ul>
-							</nav>
-						</rvt-prototype-related-nav>
-					</aside>
-				)
-			}
+			<Footer />
 		</div>
-		<Footer />
 	</body>
 </html>
 
@@ -187,9 +149,16 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 	}
 </style>
 
-<style>
+<style is:global>
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+	}
+
 	.layout {
 		display: flex;
+		flex-grow: 1;
 		flex-wrap: wrap;
 	}
 
@@ -218,14 +187,23 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			}
 
 			h2 {
-				font: var(--rvt-font-18-bold);
-				margin-block-end: var(--rvt-size-16);
+				font: var(--rvt-font-16-bold);
+
+				&:not(:first-child) {
+					margin-block-start: var(--rvt-size-32);
+				}
+
+				a {
+					font: inherit;
+				}
 			}
 
 			a {
+				align-items: center;
 				color: unset;
-				display: block;
-				font: var(--rvt-font-18);
+				display: flex;
+				font: var(--rvt-font-16);
+				justify-content: space-between;
 				text-decoration: none;
 
 				&:visited {
@@ -246,10 +224,9 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			}
 
 			> a {
-				align-items: center;
-				display: flex;
-				font: var(--rvt-font-18-bold);
+				font: var(--rvt-font-14);
 				gap: var(--rvt-size-8);
+				justify-content: unset;
 			}
 
 			ul {
@@ -312,53 +289,8 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 		padding-inline: var(--rvt-size-24);
 	}
 
-	rvt-prototype-related-nav {
-		background-color: var(--rvt-color-theme-background);
-		border-block-start: var(--rvt-border);
-		display: block;
-		padding-block-start: var(--rvt-size-24);
-
-		nav {
-			h2 {
-				font: var(--rvt-font-16-bold);
-			}
-
-			ul {
-				column-count: auto;
-				column-gap: var(--rvt-size-24);
-				column-width: 20ch;
-				list-style-type: "";
-				margin: 0;
-				padding: 0;
-
-				li {
-					padding-block-start: var(--rvt-size-8);
-				}
-
-				a {
-					color: unset;
-					display: block;
-					font: var(--rvt-font-14);
-					text-decoration: none;
-
-					&:visited {
-						color: inherit;
-					}
-
-					&:hover {
-						color: var(--rvt-color-theme-text-accent);
-						text-decoration: underline;
-					}
-
-					&[aria-current="page"] {
-						color: var(--rvt-color-theme-text-accent);
-						font-variation-settings: var(--rvt-font-variation-grade);
-						text-decoration: underline;
-						text-underline-offset: var(--rvt-size-4);
-					}
-				}
-			}
-		}
+	footer {
+		grid-area: footer;
 	}
 
 	@media (width > 50rem) {
@@ -402,28 +334,32 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			border-block-start: var(--rvt-border);
 			grid-template-areas:
 				"breadcrumbs"
-				"main";
+				"main"
+				"footer";
 			grid-template-columns: 1fr;
 			grid-template-rows: auto 1fr;
 
 			&:has(rvt-prototype-section-nav):not(:has(aside)) {
 				grid-template-areas:
 					"section-nav breadcrumbs"
-					"section-nav main";
+					"section-nav main"
+					"section-nav footer";
 				grid-template-columns: 18rem 1fr;
 			}
 
 			&:not(:has(rvt-prototype-section-nav)):has(aside) {
 				grid-template-areas:
 					"breadcrumbs aside"
-					"main aside";
+					"main aside"
+					"footer aside";
 				grid-template-columns: 1fr 18rem;
 			}
 
 			&:has(rvt-prototype-section-nav):has(aside) {
 				grid-template-areas:
 					"section-nav breadcrumbs ."
-					"section-nav main aside";
+					"section-nav main aside"
+					"section-nav footer footer";
 				grid-template-columns: 18rem 1fr 18rem;
 			}
 
@@ -445,13 +381,6 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 			aside {
 				padding-block: var(--rvt-size-24) var(--rvt-size-48);
 				padding-inline: 0 var(--rvt-size-48);
-			}
-
-			rvt-prototype-related-nav {
-				border-block-start: none;
-				border-inline-start: var(--rvt-border);
-				padding-block-start: 0;
-				padding-inline-start: var(--rvt-size-24);
 			}
 		}
 	}
