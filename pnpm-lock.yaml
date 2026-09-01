@@ -333,6 +333,9 @@ importers:
       '@rivet-iu/core':
         specifier: 'catalog:'
         version: https://codeload.github.com/indiana-university/rivet-source/tar.gz/7a63e0d379e47a36215c6c67beead004275bd243#path:/packages/core
+      sharp:
+        specifier: 'catalog:'
+        version: 0.35.4
     devDependencies:
       astro:
         specifier: 'catalog:'

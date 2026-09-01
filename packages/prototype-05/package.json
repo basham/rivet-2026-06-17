@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@repo/prototype-01": "workspace:",
 		"@repo/prototype-02": "workspace:",
-		"@rivet-iu/core": "catalog:"
+		"@rivet-iu/core": "catalog:",
+		"sharp": "catalog:"
 	}
 }
