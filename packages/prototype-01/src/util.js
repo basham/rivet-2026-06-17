@@ -19,7 +19,7 @@ export function getMenus(menus, Astro) {
 			items: [],
 		};
 		const items = _items.map((item) => getMenu(item, depth + 1, page));
-		const hasCurrent = items.some((item) => item.current);
+		const hasCurrent = items.some((item) => item.current || item.hasCurrent);
 		const hasChildren = !!items.length;
 		const menu = {
 			...page,

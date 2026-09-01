@@ -7,7 +7,12 @@ const { menus, theme = "light" } = Astro.props;
 ---
 
 <rvt-header class={`rvt-theme-${theme}`}>
-	<a class="rvt-skip-link" href="#main-content">Skip to main content</a>
+	<a
+		class="rvt-skip-link"
+		href="#main-content"
+	>
+		Skip to main content
+	</a>
 	<header>
 		<a class="rvt-lockup" href={getUrl()}>
 			<rvt-logo-iu tab></rvt-logo-iu>
@@ -49,7 +54,10 @@ const { menus, theme = "light" } = Astro.props;
 			<ul>
 				{menus.main.items.map((item: any) => (
 					<li>
-						<a href={item.url}>
+						<a
+							aria-current={(item.current || item.hasCurrent) ? "page" : null}
+							href={item.url}
+						>
 							{item.label}
 						</a>
 					</li>
@@ -87,6 +95,12 @@ const { menus, theme = "light" } = Astro.props;
 					color: inherit;
 					font: var(--rvt-font-14);
 					text-decoration: none;
+
+					&[aria-current="page"] {
+						color: var(--rvt-color-theme-text-accent);
+						font-variation-settings: var(--rvt-font-variation-grade);
+						text-decoration: underline;
+					}
 
 					&:hover {
 						color: var(--rvt-color-theme-text-accent);
