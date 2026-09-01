@@ -117,7 +117,7 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 								<p class="rvt-hero__teaser">{content.intro}</p>
 							</div>
 							<HeroFigure
-								alt={menus.page.content["hero-image"]}
+								alt={(menus.page.content ?? {})["hero-image"]}
 								id={menus.page.id}
 							/>
 						</div>
