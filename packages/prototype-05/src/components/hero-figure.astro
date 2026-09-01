@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+
+const images = import.meta.glob("../assets/*.jpg");
+const { alt = "", id } = Astro.props;
+const src = `../assets/${id}.jpg`;
+
+let resolvedImage;
+
+if (src && images[src]) {
+	const module: any = await images[src]();
+	resolvedImage = module.default;
+}
+---
+
+{resolvedImage && (
+	<figure class="rvt-hero__figure">
+		<div class="rvt-hero__images">
+			<Image
+				alt={alt}
+				layout="full-width"
+				src={resolvedImage}
+			/>
+		</div>
+	</figure>
+)}

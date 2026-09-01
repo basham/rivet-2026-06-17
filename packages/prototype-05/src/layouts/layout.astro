@@ -4,6 +4,7 @@ import "@rivet-iu/core/dist/rivet-icons.css";
 import "@rivet-iu/core/dist/rivet-stickers.css";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
+import HeroFigure from "../components/hero-figure.astro";
 import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
@@ -115,6 +116,10 @@ const topMenus = getMenus(_menus, { url: { pathname: "/" } });
 								<h1 class="rvt-hero__title">{content.h1}</h1>
 								<p class="rvt-hero__teaser">{content.intro}</p>
 							</div>
+							<HeroFigure
+								alt={menus.page.content["hero-image"]}
+								id={menus.page.id}
+							/>
 						</div>
 					)
 				}

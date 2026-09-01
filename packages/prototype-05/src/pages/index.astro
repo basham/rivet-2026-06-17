@@ -1,7 +1,6 @@
 ---
-import { Image } from "astro:assets";
+import HeroFigure from "../components/hero-figure.astro";
 import Layout from "../layouts/layout.astro";
-import homeImage from "../assets/home.jpg";
 import { getUrl } from "../util.js";
 
 export const title = "Home";
@@ -26,13 +25,9 @@ export const title = "Home";
 				</a>
 			</div>
 		</div>
-		<figure class="rvt-hero__figure">
-			<div class="rvt-hero__images">
-				<Image
-					alt="Boy with backpack spreads his arms out wide, enthralled with the fish swimming in front of him on the other side of the room-sized aquarium glass."
-					src={homeImage}
-				/>
-			</div>
-		</figure>
+		<HeroFigure
+			alt="Boy with backpack spreads his arms out wide, enthralled with the fish swimming in front of him on the other side of the room-sized aquarium glass."
+			id="home"
+		/>
 	</div>
 </Layout>
