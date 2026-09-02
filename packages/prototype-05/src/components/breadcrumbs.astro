@@ -1,0 +1,29 @@
+---
+const { page } = Astro.props;
+const { label: title } = page;
+const breadcrumbs = [];
+
+if (page) {
+	let parent = page.getParent();
+	while (parent) {
+		breadcrumbs.unshift(parent);
+		parent = parent.getParent();
+	}
+}
+---
+
+<rvt-breadcrumbs>
+	<nav aria-label="Breadcrumbs">
+		<ol class="rvt-breadcrumbs">
+			{breadcrumbs.map((item, i) => (
+				<li>
+					<a href={item.url}>
+						{i === 0 && <span class="rvt-sr-only">Home</span>}
+						{i > 0 && item.label}
+					</a>
+				</li>
+			))}
+			<li aria-current="page">{title}</li>
+		</ol>
+	</nav>
+</rvt-breadcrumbs>

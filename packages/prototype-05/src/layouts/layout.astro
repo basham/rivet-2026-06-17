@@ -2,30 +2,20 @@
 import "@rivet-iu/core/dist/rivet.css";
 import "@rivet-iu/core/dist/rivet-icons.css";
 import "@rivet-iu/core/dist/rivet-stickers.css";
+import Breadcrumbs from "../components/breadcrumbs.astro";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import HeroFigure from "../components/hero-figure.astro";
+import SectionNav from "../components/section-nav.astro";
 import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
 const menus = getMenus(_menus, Astro);
 const { page } = menus;
-const { label: title, content = {}, ...props } = page;
+const { label: title, content = {} } = page;
 const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
 const hideTitle = Astro.slots.has("default");
-const breadcrumbs = [];
-
-if (page) {
-	let parent = page.getParent();
-	while (parent) {
-		breadcrumbs.unshift(parent);
-		parent = parent.getParent();
-	}
-}
-
-const menu = page.hasChildren ? page : page.getParent();
-const menuParent = menu.getParent();
 ---
 
 <!doctype html>
@@ -39,68 +29,13 @@ const menuParent = menu.getParent();
 		<Header menus={menus} />
 		<div class="layout">
 			{
-				!root && menu.parent && (
-					<rvt-prototype-section-nav>
-						<button
-							class="rvt-button rvt-button--small"
-							popovertarget="rvt-section-nav"
-						>
-							In this section
-							<rvt-icon name="chevron-down"></rvt-icon>
-						</button>
-						<nav
-							aria-label="Section nav"
-							id="rvt-section-nav"
-							popover
-						>
-							<a href={menuParent.url}>
-								<rvt-icon name="arrow-left"></rvt-icon>
-								{menuParent.id === "main" ? "Home" : menuParent.label}
-							</a>
-							<h2>
-								{menu.current && menu.label}
-								{!menu.current && (
-									<a href={menu.url}>
-										{menu.label}
-									</a>
-								)}
-							</h2>
-							<ul>
-								{menu.items.map((item: any, i: number) => (
-									<li>
-										<a
-											aria-current={item.current ? "page" : null}
-											href={item.url}
-										>
-											{item.label}
-											{item.hasChildren && (
-												<rvt-icon name="chevron-right"></rvt-icon>
-											)}
-										</a>
-									</li>
-								))}
-							</ul>
-						</nav>
-					</rvt-prototype-section-nav>
+				!root && (
+					<SectionNav menu={menus.page} />
 				)
 			}
 			{
 				!root && (
-					<rvt-breadcrumbs>
-						<nav aria-label="Breadcrumbs">
-							<ol class="rvt-breadcrumbs">
-								{breadcrumbs.map((item, i) => (
-									<li>
-										<a href={item.url}>
-											{i === 0 && <span class="rvt-sr-only">Home</span>}
-											{i > 0 && item.label}
-										</a>
-									</li>
-								))}
-								<li aria-current="page">{title}</li>
-							</ol>
-						</nav>
-					</rvt-breadcrumbs>
+					<Breadcrumbs page={page} />
 				)
 			}
 			<main id="main-content">
@@ -161,91 +96,11 @@ const menuParent = menu.getParent();
 	}
 
 	.layout {
-		display: flex;
-		flex-grow: 1;
-		flex-wrap: wrap;
-	}
-
-	rvt-prototype-section-nav {
-		display: block;
-		grid-area: section-nav;
-		padding-block-end: var(--rvt-size-16);
-		padding-inline: var(--rvt-size-24) 0;
-
-		button[popovertarget] {
-			anchor-name: --button;
-		}
-
-		nav {
-			&[popover] {
-				border: var(--rvt-border);
-				box-shadow: var(--rvt-shadow-standard);
-				inset: auto;
-				left: anchor(--button left);
-				margin: var(--rvt-size-8) 0 0;
-				padding: var(--rvt-size-24);
-				position: absolute;
-				position-anchor: --button;
-				top: anchor(--button bottom);
-				width: calc(100vw - var(--rvt-size-48));
-			}
-
-			h2 {
-				font: var(--rvt-font-16-bold);
-
-				&:not(:first-child) {
-					margin-block-start: var(--rvt-size-32);
-				}
-
-				a {
-					font: inherit;
-				}
-			}
-
-			a {
-				align-items: center;
-				color: unset;
-				display: flex;
-				font: var(--rvt-font-16);
-				justify-content: space-between;
-				text-decoration: none;
-
-				&:visited {
-					color: inherit;
-				}
-
-				&:hover {
-					color: var(--rvt-color-theme-text-accent);
-					text-decoration: underline;
-				}
-
-				&[aria-current="page"] {
-					color: var(--rvt-color-theme-text-accent);
-					font-variation-settings: var(--rvt-font-variation-grade);
-					text-decoration: underline;
-					text-underline-offset: var(--rvt-size-4);
-				}
-			}
-
-			> a {
-				font: var(--rvt-font-14);
-				gap: var(--rvt-size-8);
-				justify-content: unset;
-			}
-
-			ul {
-				list-style-type: "";
-				margin: 0;
-				padding: 0;
-
-				&:not(:first-child) {
-					margin-block-start: var(--rvt-size-16);
-				}
-
-				li:not(:first-child) {
-					margin-block-start: var(--rvt-size-8);
-				}
-			}
+		rvt-prototype-section-nav {
+			display: none;
+			grid-area: section-nav;
+			padding-block-end: var(--rvt-size-16);
+			padding-inline: var(--rvt-size-24) 0;
 		}
 	}
 
@@ -262,7 +117,6 @@ const menuParent = menu.getParent();
 	}
 
 	main {
-		flex-basis: 100%;
 		grid-area: main;
 		padding-block: var(--rvt-size-8) var(--rvt-size-24);
 		padding-inline: var(--rvt-size-24);
@@ -286,13 +140,6 @@ const menuParent = menu.getParent();
 		}
 	}
 
-	aside {
-		flex-basis: 100%;
-		grid-area: aside;
-		padding-block: 0 var(--rvt-size-24);
-		padding-inline: var(--rvt-size-24);
-	}
-
 	footer {
 		grid-area: footer;
 	}
@@ -304,7 +151,7 @@ const menuParent = menu.getParent();
 			grid-template-areas:
 				"breadcrumbs"
 				"main"
-				"aside";
+				"footer";
 			grid-template-columns: 1fr;
 			grid-template-rows: auto auto 1fr;
 
@@ -312,12 +159,13 @@ const menuParent = menu.getParent();
 				grid-template-areas:
 					"section-nav breadcrumbs"
 					"section-nav main"
-					"section-nav aside";
+					"section-nav footer";
 				grid-template-columns: min(30vw, 18rem) 1fr;
 			}
 
 			rvt-prototype-section-nav {
 				border-inline-end: var(--rvt-border);
+				display: unset;
 				padding: var(--rvt-size-24);
 
 				button[popovertarget] {
@@ -343,28 +191,12 @@ const menuParent = menu.getParent();
 			grid-template-columns: 1fr;
 			grid-template-rows: auto 1fr;
 
-			&:has(rvt-prototype-section-nav):not(:has(aside)) {
+			&:has(rvt-prototype-section-nav) {
 				grid-template-areas:
 					"section-nav breadcrumbs"
 					"section-nav main"
 					"section-nav footer";
 				grid-template-columns: 18rem 1fr;
-			}
-
-			&:not(:has(rvt-prototype-section-nav)):has(aside) {
-				grid-template-areas:
-					"breadcrumbs aside"
-					"main aside"
-					"footer aside";
-				grid-template-columns: 1fr 18rem;
-			}
-
-			&:has(rvt-prototype-section-nav):has(aside) {
-				grid-template-areas:
-					"section-nav breadcrumbs ."
-					"section-nav main aside"
-					"section-nav footer footer";
-				grid-template-columns: 18rem 1fr 18rem;
 			}
 
 			:is(rvt-breadcrumbs, main) {
@@ -381,56 +213,10 @@ const menuParent = menu.getParent();
 			main {
 				padding-block-end: var(--rvt-size-48);
 			}
-
-			aside {
-				padding-block: var(--rvt-size-24) var(--rvt-size-48);
-				padding-inline: 0 var(--rvt-size-48);
-			}
 		}
 	}
 </style>
 
 <script>
 	import "@rivet-iu/core";
-</script>
-
-<script>
-	const popover = document.getElementById("rvt-section-nav");
-	if (popover) {
-		popover.addEventListener('beforetoggle', (event) => {
-			if (event.newState === 'open') {
-				requestAnimationFrame(() => {
-					const firstFocusable = popover.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') as HTMLElement;
-					if (firstFocusable) {
-						firstFocusable.focus();
-					} else {
-						popover.focus();
-					}
-				});
-			}
-		});
-
-		popover.addEventListener("focusout", (event) => {
-			if (!popover.contains(event.relatedTarget as Node)) {
-				popover.hidePopover();
-			}
-		});
-
-		const mq = window.matchMedia("(width > 50rem)");
-
-		function handleViewportChange(matches: Boolean) {
-			if (!popover) {
-				return;
-			}
-			if (matches) {
-				popover.removeAttribute("popover");
-			} else {
-				popover.setAttribute("popover", "auto");
-				popover.hidePopover();
-			}
-		}
-
-		handleViewportChange(mq.matches);
-		mq.addEventListener("change", (e) => handleViewportChange(e.matches));
-	}
 </script>
