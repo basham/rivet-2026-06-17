@@ -1,5 +1,6 @@
 ---
 import Nav from "../components/nav.astro";
+import Search from "../components/search.astro";
 import { site } from "../const.js";
 import { getUrl } from "../util.js";
 
@@ -20,6 +21,7 @@ const { menus, theme = "light" } = Astro.props;
 				<div class="rvt-lockup__title">{site}</div>
 			</div>
 		</a>
+		<Search />
 		<button
 			class="rvt-button rvt-button--strong rvt-button--icon-only"
 			command="show-modal"
@@ -45,6 +47,7 @@ const { menus, theme = "light" } = Astro.props;
 					<span class="rvt-sr-only">Close</span>
 				</button>
 			</header>
+			<Search />
 			<Nav menus={menus} />
 		</dialog>
 	</header>
@@ -62,7 +65,15 @@ const { menus, theme = "light" } = Astro.props;
 			justify-content: space-between;
 			padding: var(--rvt-size-24);
 
-			@media (width > 50rem) {
+			> rvt-prototype-search {
+				display: none;
+			}
+
+			@media (width > 60rem) {
+				> rvt-prototype-search {
+					display: block;
+				}
+
 				> button {
 					display: none;
 				}
@@ -134,10 +145,11 @@ const { menus, theme = "light" } = Astro.props;
 			}
 		}
 
+		> rvt-prototype-search,
 		> rvt-prototype-nav {
-			display: block;
-			margin: 0 auto;
+			margin: var(--rvt-size-32) auto;
 			max-width: 25rem;
+			padding: 0;
 		}
 	}
 </style>

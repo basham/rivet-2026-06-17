@@ -1,0 +1,59 @@
+---
+import HeaderSearch from "@rivet-iu/core/src/components/header/header-search.astro";
+---
+
+<rvt-prototype-search>
+	<HeaderSearch />
+</rvt-prototype-search>
+
+<style is:global>
+	rvt-prototype-search {
+		display: block;
+
+		search {
+			display: block;
+
+			form {
+				--form-gap: var(--rvt-size-8);
+				align-items: center;
+				display: flex;
+				position: relative;
+
+				&::before {
+					background-color: currentColor;
+					clip-path: path(var(--rvt-icon-magnifying-glass));
+					content: "";
+					flex-shrink: 0;
+					height: var(--rvt-size-16);
+					margin: var(--rvt-size-16);
+					pointer-events: none;
+					position: absolute;
+					width: var(--rvt-size-16);
+					z-index: var(--rvt-z-index-100);
+				}
+
+				input[type="search"] {
+					padding-inline: var(--rvt-size-48);
+
+					&::-webkit-search-cancel-button {
+						display: none;
+					}
+
+					&:placeholder-shown {
+						padding-inline-end: 0;
+
+						+ button[data-rvt-header-search-clear] {
+							display: none;
+						}
+					}
+				}
+
+				button[data-rvt-header-search-clear] {
+					margin-inline-start: calc(var(--rvt-size-36) * -1);
+					margin-inline-end: var(--rvt-size-12);
+					position: relative;
+				}
+			}
+		}
+	}
+</style>

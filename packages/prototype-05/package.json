@@ -1,6 +1,6 @@
 {
 	"name": "@repo/prototype-05",
-	"description": "Indiana Zooniversity 1",
+	"description": "Indiana Zooniversity",
 	"private": true,
 	"license": "BSD-3-Clause",
 	"type": "module",

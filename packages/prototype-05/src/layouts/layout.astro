@@ -140,7 +140,7 @@ const hideTitle = Astro.slots.has("default");
 		grid-area: footer;
 	}
 
-	@media (width > 50rem) {
+	@media (width > 60rem) {
 		.layout {
 			display: grid;
 			grid-template-areas:
@@ -156,7 +156,7 @@ const hideTitle = Astro.slots.has("default");
 					"nav main"
 					"nav ."
 					"nav footer";
-				grid-template-columns: min(30vw, 20rem) 1fr;
+				grid-template-columns: 20rem 1fr;
 			}
 
 			rvt-prototype-nav {
@@ -166,28 +166,6 @@ const hideTitle = Astro.slots.has("default");
 				button[popovertarget] {
 					display: none;
 				}
-			}
-		}
-	}
-
-	@media (width > 80rem) {
-		.layout {
-			display: grid;
-			border-block-start: var(--rvt-border);
-			grid-template-areas:
-				"breadcrumbs"
-				"main"
-				"footer";
-			grid-template-columns: 1fr;
-			grid-template-rows: auto 1fr;
-
-			&:has(rvt-prototype-nav) {
-				grid-template-areas:
-					"nav breadcrumbs"
-					"nav main"
-					"nav ."
-					"nav footer";
-				grid-template-columns: 20rem 1fr;
 			}
 
 			:is(rvt-breadcrumbs, main) {
