@@ -1,5 +1,5 @@
 ---
-import SectionNav from "../components/section-nav.astro";
+import Nav from "../components/nav.astro";
 import { site } from "../const.js";
 import { getUrl } from "../util.js";
 
@@ -45,25 +45,8 @@ const { menus, theme = "light" } = Astro.props;
 					<span class="rvt-sr-only">Close</span>
 				</button>
 			</header>
-			<SectionNav menu={menus.main} />
-			{!menus.page.main && (
-				<SectionNav menu={menus.page} />
-			)}
+			<Nav menus={menus} />
 		</dialog>
-		<nav>
-			<ul>
-				{menus.main.items.map((item: any) => (
-					<li>
-						<a
-							aria-current={(item.current || item.hasCurrent) ? "page" : null}
-							href={item.url}
-						>
-							{item.label}
-						</a>
-					</li>
-				))}
-			</ul>
-		</nav>
 	</header>
 </rvt-header>
 
@@ -142,15 +125,6 @@ const { menus, theme = "light" } = Astro.props;
 				display: flex;
 				font: var(--rvt-font-20-bold);
 				gap: var(--rvt-size-8);
-			}
-		}
-
-		rvt-prototype-section-nav {
-			margin-block-start: var(--rvt-size-24);
-
-			& + & {
-				border-block-start: var(--rvt-border);
-				padding-block-start: var(--rvt-size-32);
 			}
 		}
 	}

@@ -1,0 +1,28 @@
+---
+import SectionNav from "../components/section-nav.astro";
+
+const { menus } = Astro.props;
+---
+
+<rvt-prototype-nav>
+	<SectionNav menu={menus.main} />
+	{!menus.page.main && (
+		<SectionNav menu={menus.page} />
+	)}
+</rvt-prototype-nav>
+
+<style is:global>
+	rvt-prototype-nav {
+		display: flex;
+		flex-direction: column;
+
+		rvt-prototype-section-nav {
+			& + & {
+				background-color: var(--rvt-color-theme-background-strong);
+				border-block-start: var(--rvt-border);
+				flex-grow: 1;
+				padding-block-start: var(--rvt-size-32);
+			}
+		}
+	}
+</style>

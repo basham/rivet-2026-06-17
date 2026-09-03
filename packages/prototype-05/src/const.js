@@ -3,7 +3,7 @@ import path from "node:path";
 import { parseHTML } from "linkedom";
 import { toSlug } from "./util.js";
 
-export const site = "Indiana Zoouniversity";
+export const site = "Indiana Zooniversity";
 export const menus = await getData();
 
 async function getData() {
