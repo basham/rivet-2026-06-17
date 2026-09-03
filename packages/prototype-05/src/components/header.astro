@@ -62,6 +62,12 @@ const { menus, theme = "light" } = Astro.props;
 			justify-content: space-between;
 			padding: var(--rvt-size-24);
 
+			@media (width > 50rem) {
+				> button {
+					display: none;
+				}
+			}
+
 			> nav {
 				flex-basis: 100%;
 
@@ -99,15 +105,13 @@ const { menus, theme = "light" } = Astro.props;
 		border: none;
 		box-shadow: var(--rvt-shadow-heavy);
 		height: 100vh;
-		inset: auto;
+		margin: 0;
 		max-height: unset;
-		max-width: 30rem;
+		max-width: unset;
 		overflow-y: auto;
 		overscroll-behavior: contain;
-		padding-block: var(--rvt-size-28);
-		padding-inline: var(--rvt-size-24);
+		padding: 0;
 		position: fixed;
-		right: 0;
 		width: 100%;
 
 		&::backdrop {
@@ -116,9 +120,11 @@ const { menus, theme = "light" } = Astro.props;
 
 		> header {
 			align-items: center;
+			border-block-end: var(--rvt-border);
 			display: flex;
 			justify-content: space-between;
-			margin-block-end: var(--rvt-size-16);
+			padding-block: var(--rvt-size-28);
+			padding-inline: var(--rvt-size-24);
 
 			h1 {
 				align-items: center;
@@ -126,6 +132,12 @@ const { menus, theme = "light" } = Astro.props;
 				font: var(--rvt-font-20-bold);
 				gap: var(--rvt-size-8);
 			}
+		}
+
+		> rvt-prototype-nav {
+			display: block;
+			margin: 0 auto;
+			max-width: 25rem;
 		}
 	}
 </style>

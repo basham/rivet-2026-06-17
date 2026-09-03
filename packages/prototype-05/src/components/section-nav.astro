@@ -2,104 +2,56 @@
 const { menu: _menu } = Astro.props;
 const menu = _menu.hasChildren ? _menu : _menu.getParent();
 const parent = menu.getParent();
-const items = [menu, ...menu.items]
-	.filter((item) => item.id !== "main");
 ---
 
 <rvt-prototype-section-nav type={menu.main ? "main" : null}>
-	<nav aria-label="Section nav">
-		{parent && (
+	{menu.depth > 1 && (
+		<>
 			<a href={parent.url}>
 				<rvt-icon name="arrow-left"></rvt-icon>
-				{parent.id === "main" ? "Home" : parent.label}
+				Back
 			</a>
-		)}
-		<ul>
-			{items.map((item: any, i: number) => (
-				<li>
-					<a
-						aria-current={(item.current || (menu.main && item.hasCurrent)) ? "page" : null}
-						href={item.url}
-					>
-						{item.label}
-						{!menu.main && item.hasChildren && i > 0 && (
-							<rvt-icon name="chevron-right"></rvt-icon>
-						)}
-					</a>
-				</li>
-			))}
-		</ul>
-	</nav>
+			<a
+				aria-current={menu.current ? "page" : null}
+				data-current={menu.hasCurrent ? true : null}
+				href={menu.url}
+			>
+				{menu.label}
+			</a>
+		</>
+	)}
+	<ul>
+		{menu.items.map((item: any) => (
+			<li>
+				<a
+					aria-current={item.current ? "page" : null}
+					href={item.url}
+				>
+					{item.label}
+					{item.hasChildren && (
+						<rvt-icon name="chevron-right"></rvt-icon>
+					)}
+				</a>
+			</li>
+		))}
+	</ul>
 </rvt-prototype-section-nav>
 
 <style is:global>
 	rvt-prototype-section-nav {
 		display: block;
-		padding: var(--rvt-size-24);
+		padding-inline-start: var(--rvt-size-16);
 
-		nav {
-			h2 {
-				font: var(--rvt-font-16-bold);
-
-				&:not(:first-child) {
-					margin-block-start: var(--rvt-size-32);
-				}
-
-				a {
-					font: inherit;
-				}
-			}
-
-			a {
-				align-items: center;
-				color: unset;
-				display: flex;
-				font: var(--rvt-font-16);
-				justify-content: space-between;
-				text-decoration: none;
-
-				&:visited {
-					color: inherit;
-				}
-
-				&:hover {
-					color: var(--rvt-color-theme-text-accent);
-					text-decoration: underline;
-				}
-
-				&[aria-current="page"] {
-					color: var(--rvt-color-theme-text-accent);
-					font-variation-settings: var(--rvt-font-variation-grade);
-					text-decoration: underline;
-					text-underline-offset: var(--rvt-size-4);
-				}
-			}
-
-			> a {
-				font: var(--rvt-font-14);
-				gap: var(--rvt-size-8);
-				justify-content: unset;
-			}
-
-			ul {
-				list-style-type: "";
-				margin: 0;
-				padding: 0;
-
-				&:not(:first-child) {
-					margin-block-start: var(--rvt-size-24);
-				}
-
-				a {
-					padding-block: var(--rvt-size-8);
-				}
-			}
+		a {
+			padding-block: var(--rvt-size-4);
 		}
 
-		&[type="main"] {
-			a {
-				font: var(--rvt-font-18);
-			}
+		> a {
+			justify-content: unset;
+		}
+
+		ul:not(:first-child) {
+			padding-inline-start: var(--rvt-size-16);
 		}
 	}
 </style>

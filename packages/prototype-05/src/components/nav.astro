@@ -5,23 +5,71 @@ const { menus } = Astro.props;
 ---
 
 <rvt-prototype-nav>
-	<SectionNav menu={menus.main} />
-	{!menus.page.main && (
-		<SectionNav menu={menus.page} />
-	)}
+	<nav>
+		<ul>
+			{menus.main.items.map((item: any) => (
+				<li>
+					<a
+						aria-current={item.current ? "page" : null}
+						data-current={item.hasCurrent ? true : null}
+						href={item.url}
+					>
+						{item.label}
+					</a>
+					{(item.current || item.hasCurrent) && (
+						<SectionNav menu={menus.page} />
+					)}
+				</li>
+			))}
+		</ul>
+	</nav>
 </rvt-prototype-nav>
 
 <style is:global>
 	rvt-prototype-nav {
-		display: flex;
-		flex-direction: column;
+		padding: var(--rvt-size-24);
 
-		rvt-prototype-section-nav {
-			& + & {
-				background-color: var(--rvt-color-theme-background-strong);
-				border-block-start: var(--rvt-border);
-				flex-grow: 1;
-				padding-block-start: var(--rvt-size-32);
+		&:not(:first-child) {
+			margin-block-start: var(--rvt-size-24);
+		}
+
+		> nav > ul > li > a {
+			font: var(--rvt-font-18);
+		}
+
+		:where(ul) {
+			list-style-type: "";
+			margin: 0;
+			padding: 0;
+		}
+
+		:where(a) {
+			align-items: center;
+			color: unset;
+			display: flex;
+			gap: var(--rvt-size-8);
+			justify-content: space-between;
+			padding-block: var(--rvt-size-8);
+			text-decoration: none;
+
+			&:visited {
+				color: inherit;
+			}
+
+			&:hover {
+				color: var(--rvt-color-theme-text-accent);
+				text-decoration: underline;
+			}
+
+			&[data-current] {
+				font-variation-settings: var(--rvt-font-variation-grade);
+			}
+
+			&[aria-current="page"] {
+				color: var(--rvt-color-theme-text-accent);
+				font-variation-settings: var(--rvt-font-variation-grade);
+				text-decoration: underline;
+				text-underline-offset: var(--rvt-size-4);
 			}
 		}
 	}
