@@ -57,6 +57,9 @@ const { menus } = Astro.props;
 		}
 
 		:where(ul) {
+			display: flex;
+			flex-direction: column;
+			gap: var(--rvt-size-16);
 			list-style-type: "";
 			margin: 0;
 			padding: 0;
@@ -68,7 +71,6 @@ const { menus } = Astro.props;
 			display: flex;
 			gap: var(--rvt-size-8);
 			justify-content: space-between;
-			padding-block: var(--rvt-size-8);
 			text-decoration: none;
 
 			&:visited {

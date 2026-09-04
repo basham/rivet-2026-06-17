@@ -8,7 +8,7 @@ const parent = menu.getParent();
 	{menu.depth > 1 && (
 		<>
 			<a href={parent.url}>
-				<rvt-icon name="arrow-left"></rvt-icon>
+				<rvt-icon name="chevron-left"></rvt-icon>
 				Back
 			</a>
 			<a
@@ -39,19 +39,28 @@ const parent = menu.getParent();
 
 <style is:global>
 	rvt-prototype-section-nav {
-		display: block;
-		padding-inline-start: var(--rvt-size-16);
-
-		a {
-			padding-block: var(--rvt-size-4);
-		}
+		display: flex;
+		flex-direction: column;
+		gap: var(--rvt-size-8);
+		padding: var(--rvt-size-16) 0 0 var(--rvt-size-20);
 
 		> a {
 			justify-content: unset;
+
+			&:has(rvt-icon) {
+				font: var(--rvt-font-14);
+				gap: var(--rvt-size-4);
+				padding-block: var(--rvt-size-2);
+				margin-inline-start: calc(var(--rvt-size-20) * -1);
+			}
 		}
 
-		ul:not(:first-child) {
-			padding-inline-start: var(--rvt-size-16);
+		ul {
+			gap: var(--rvt-size-8);
+
+			&:not(:first-child) {
+				padding-inline-start: var(--rvt-size-20);
+			}
 		}
 	}
 </style>
