@@ -10,12 +10,12 @@ import Nav from "../components/nav.astro";
 import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
+const { content: _content = {} } = Astro.props;
 const menus = getMenus(_menus, Astro);
 const { page } = menus;
-const { label: title, content = {} } = page;
+const { label: title, content = _content } = page;
 const root = Astro.url.pathname === getUrl() + "/";
 const docTitle = root ? site : [title, site].join(" - ");
-const hideTitle = Astro.slots.has("default");
 ---
 
 <!doctype html>
@@ -35,42 +35,39 @@ const hideTitle = Astro.slots.has("default");
 				)
 			}
 			<main id="main-content">
-				{
-					!hideTitle && (
-						<div class:list={{
-							"rvt-hero": true,
-							"rvt-hero--statement": menus.page.depth === 0,
-							"rvt-hero--feature": menus.page.depth === 1,
-						}}>
-							<div class="rvt-hero__body">
-								<h1 class="rvt-hero__title">{content.h1}</h1>
-								<p class="rvt-hero__teaser">{content.intro}</p>
+				<div class:list={{
+					"rvt-hero": true,
+					"rvt-hero--statement": menus.page.depth === 0,
+					"rvt-hero--feature": menus.page.depth === 1,
+				}}>
+					<div class="rvt-hero__body">
+						{content.eyebrow && (
+							<div class="rvt-hero__eyebrow">{content.eyebrow}</div>
+						)}
+						<h1 class="rvt-hero__title">{content.h1}</h1>
+						<p class="rvt-hero__teaser">{content.intro}</p>
+						{content.heroAction && (
+							<div class="rvt-hero__actions">
+								<a
+									class="rvt-button rvt-button--cta rvt-button--strong"
+									href={getUrl(content.heroAction.id)}
+								>
+									{content.heroAction.label}
+								</a>
 							</div>
-							<HeroFigure
-								alt={(menus.page.content ?? {})["hero-image"]}
-								id={menus.page.id}
-							/>
-						</div>
-					)
-				}
-				{hideTitle && <h1 class="rvt-sr-only">{title}</h1>}
-				{
-					menus.page?.articles && (
-						<div class="content">
-							{menus.page.articles.map((article: any) => (
-								<>
-									<h2>{article.label}</h2>
-									<p>{article.description}</p>
-								</>
-							))}
-						</div>
-					)
-				}
-				<div class="rvt-rich-text">
-					<h2>{content.h2}</h2>
-					<p>{content.body}</p>
+						)}
+					</div>
+					<HeroFigure
+						alt={(menus.page.content || content || {})["hero-image"]}
+						id={menus.page.id}
+					/>
 				</div>
-				<slot />
+				{content.h2 && (
+					<div class="rvt-rich-text">
+						<h2>{content.h2}</h2>
+						<p>{content.body}</p>
+					</div>
+				)}
 			</main>
 			<Footer />
 		</div>
@@ -92,6 +89,11 @@ const hideTitle = Astro.slots.has("default");
 	}
 
 	.layout {
+		--padding: clamp(
+			var(--rvt-size-24),
+			5vw,
+			var(--rvt-size-48)
+		);
 		border-block-start: var(--rvt-border);
 		flex-grow: 1;
 
@@ -105,7 +107,8 @@ const hideTitle = Astro.slots.has("default");
 		align-self: center;
 		display: block;
 		grid-area: breadcrumbs;
-		padding: var(--rvt-size-24);
+		padding-block-start: var(--padding);
+		padding-inline: var(--padding);
 
 		nav {
 			display: flex;
@@ -114,25 +117,14 @@ const hideTitle = Astro.slots.has("default");
 
 	main {
 		grid-area: main;
-		padding-block: var(--rvt-size-8) var(--rvt-size-24);
-		padding-inline: var(--rvt-size-24);
+		padding: var(--padding);
 
 		.rvt-hero {
-			margin-block-end: var(--rvt-size-24);
-			margin-inline: unset;
 			padding-inline: 0;
 		}
 
-		.content {
-			h2 {
-				font: var(--rvt-font-20-fluid-black);
-				margin-block-start: var(--rvt-size-32);
-			}
-		}
-
-		.rvt-card-grid {
-			--gap: clamp(var(--rvt-size-16), 5vw, var(--rvt-size-40));
-			grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		.rvt-rich-text {
+			margin-block-start: var(--rvt-size-32);
 		}
 	}
 
@@ -144,43 +136,21 @@ const hideTitle = Astro.slots.has("default");
 		.layout {
 			display: grid;
 			grid-template-areas:
-				"breadcrumbs"
-				"main"
-				"footer";
-			grid-template-columns: 1fr;
-			grid-template-rows: auto auto 1fr;
-
-			&:has(rvt-prototype-nav) {
-				grid-template-areas:
-					"nav breadcrumbs"
-					"nav main"
-					"nav ."
-					"nav footer";
-				grid-template-columns: 20rem 1fr;
-			}
+				"nav breadcrumbs"
+				"nav main"
+				"nav footer";
+			grid-template-columns: 20rem 1fr;
+			grid-template-rows: auto 1fr auto;
 
 			rvt-prototype-nav {
 				border-inline-end: var(--rvt-border);
 				display: block;
-
-				button[popovertarget] {
-					display: none;
-				}
 			}
 
 			:is(rvt-breadcrumbs, main) {
 				justify-self: center;
 				max-width: 80rem;
-				padding-inline: var(--rvt-size-48);
 				width: 100%;
-			}
-
-			rvt-breadcrumbs {
-				padding-block-start: var(--rvt-size-48);
-			}
-
-			main {
-				padding-block-end: var(--rvt-size-48);
 			}
 		}
 	}
