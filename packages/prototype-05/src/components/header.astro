@@ -1,13 +1,13 @@
 ---
-import Nav from "../components/nav.astro";
+import MobileMenu from "../components/mobile-menu.astro";
 import Search from "../components/search.astro";
 import { site } from "../const.js";
 import { getUrl } from "../util.js";
 
-const { menus, theme = "light" } = Astro.props;
+const { menus } = Astro.props;
 ---
 
-<rvt-header class={`rvt-theme-${theme}`}>
+<rvt-header>
 	<a
 		class="rvt-skip-link"
 		href="#main-content"
@@ -22,42 +22,11 @@ const { menus, theme = "light" } = Astro.props;
 			</div>
 		</a>
 		<Search />
-		<button
-			class="rvt-button rvt-button--strong rvt-button--icon-only"
-			command="show-modal"
-			commandfor="rvt-header-menu-dialog"
-			data-rvt-header-menu-toggle
-		>
-			<span class="rvt-sr-only">Browse</span>
-		</button>
-		<dialog
-			aria-labelledby="rvt-header-menu-dialog"
-			id="rvt-header-menu-dialog"
-		>
-			<header>
-				<h1 id="rvt-header-menu-dialog-title">
-					Menu
-				</h1>
-				<button
-					class="rvt-button rvt-button--icon-only rvt-header__button"
-					command="close"
-					commandfor="rvt-header-menu-dialog"
-				>
-					<rvt-icon name="close"></rvt-icon>
-					<span class="rvt-sr-only">Close</span>
-				</button>
-			</header>
-			<Search />
-			<Nav menus={menus} />
-		</dialog>
+		<MobileMenu menus={menus} />
 	</header>
 </rvt-header>
 
 <style is:global>
-	body:has(dialog[open]:modal) {
-		overflow: hidden;
-	}
-
 	rvt-header {
 		> header {
 			display: flex;
@@ -74,82 +43,10 @@ const { menus, theme = "light" } = Astro.props;
 					display: block;
 				}
 
-				> button {
+				> rvt-prototype-mobile-menu {
 					display: none;
 				}
 			}
-
-			> nav {
-				flex-basis: 100%;
-
-				ul {
-					display: flex;
-					flex-wrap: wrap;
-					gap: var(--rvt-size-8) var(--rvt-size-24);
-					list-style-type: "";
-					margin: 0;
-					padding: 0;
-				}
-
-				a {
-					color: inherit;
-					font: var(--rvt-font-14);
-					text-decoration: none;
-
-					&[aria-current="page"] {
-						color: var(--rvt-color-theme-text-accent);
-						font-variation-settings: var(--rvt-font-variation-grade);
-						text-decoration: underline;
-					}
-
-					&:hover {
-						color: var(--rvt-color-theme-text-accent);
-						text-decoration: underline;
-					}
-				}
-			}
-		}
-	}
-
-	#rvt-header-menu-dialog {
-		background-color: var(--rvt-color-theme-background);
-		border: none;
-		box-shadow: var(--rvt-shadow-heavy);
-		height: 100vh;
-		margin: 0;
-		max-height: unset;
-		max-width: unset;
-		overflow-y: auto;
-		overscroll-behavior: contain;
-		padding: 0;
-		position: fixed;
-		width: 100%;
-
-		&::backdrop {
-			background-color: rgba(0, 0, 0, 0.7);
-		}
-
-		> header {
-			align-items: center;
-			border-block-end: var(--rvt-border);
-			display: flex;
-			justify-content: space-between;
-			padding-block: var(--rvt-size-28);
-			padding-inline: var(--rvt-size-24);
-
-			h1 {
-				align-items: center;
-				display: flex;
-				font: var(--rvt-font-20-bold);
-				gap: var(--rvt-size-8);
-			}
-		}
-
-		> rvt-prototype-search,
-		> rvt-prototype-nav {
-			margin: var(--rvt-size-32) auto;
-			max-width: 25rem;
-			padding: 0;
 		}
 	}
 </style>

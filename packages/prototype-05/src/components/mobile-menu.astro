@@ -1,0 +1,100 @@
+---
+import Nav from "../components/nav.astro";
+import Search from "../components/search.astro";
+
+const { menus } = Astro.props;
+const dialogId = "rvt-header-menu-dialog";
+const titleId = `${dialogId}-title`;
+---
+
+<rvt-prototype-mobile-menu>
+	<button
+		class="rvt-button rvt-button--strong rvt-button--icon-only"
+		command="show-modal"
+		commandfor={dialogId}
+		data-rvt-header-menu-toggle
+	>
+		<span class="rvt-sr-only">Browse</span>
+	</button>
+	<dialog
+		aria-labelledby={titleId}
+		id={dialogId}
+	>
+		<header>
+			<h1 id={titleId}>
+				Menu
+			</h1>
+			<button
+				class="rvt-button rvt-button--icon-only rvt-header__button"
+				command="close"
+				commandfor={dialogId}
+			>
+				<rvt-icon name="close"></rvt-icon>
+				<span class="rvt-sr-only">Close</span>
+			</button>
+		</header>
+		<Search />
+		<Nav menus={menus} />
+	</dialog>
+</rvt-prototype-mobile-menu>
+
+<style is:global>
+	body:has(dialog[open]:modal) {
+		overflow: hidden;
+	}
+
+	rvt-prototype-mobile-menu {
+		dialog {
+			background-color: var(--rvt-color-theme-background);
+			border: none;
+			box-shadow: var(--rvt-shadow-heavy);
+			flex-direction: column;
+			height: 100vh;
+			margin: 0;
+			max-height: unset;
+			max-width: unset;
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			padding: 0;
+			position: fixed;
+			width: 100%;
+
+			&:open {
+				display: flex;
+			}
+
+			&::backdrop {
+				background-color: rgba(0, 0, 0, 0.7);
+			}
+
+			header {
+				align-items: center;
+				border-block-end: var(--rvt-border);
+				display: flex;
+				justify-content: space-between;
+				padding-block: var(--rvt-size-28);
+				padding-inline: var(--rvt-size-24);
+
+				h1 {
+					align-items: center;
+					display: flex;
+					font: var(--rvt-font-20-bold);
+					gap: var(--rvt-size-8);
+				}
+			}
+
+			rvt-prototype-search,
+			rvt-prototype-nav {
+				align-self: center;
+				display: block;
+				max-width: 25rem;
+				padding: var(--rvt-size-24);
+				width: 100%;
+			}
+
+			rvt-prototype-nav {
+				flex-grow: 1;
+			}
+		}
+	}
+</style>

@@ -1,5 +1,6 @@
 ---
 import SectionNav from "../components/section-nav.astro";
+import { getUrl } from "../util.js";
 
 const { menus } = Astro.props;
 ---
@@ -22,6 +23,20 @@ const { menus } = Astro.props;
 				</li>
 			))}
 		</ul>
+		<div class="rvt-button-group">
+			<a
+				class="rvt-button rvt-button--cta rvt-button--full-width"
+				href={getUrl("/volunteer")}
+			>
+				Volunteer at the zoo
+			</a>
+			<a
+				class="rvt-button rvt-button--cta rvt-button--full-width"
+				href={getUrl("/membership")}
+			>
+				Become a member
+			</a>
+		</div>
 	</nav>
 </rvt-prototype-nav>
 
@@ -30,12 +45,15 @@ const { menus } = Astro.props;
 		display: block;
 		padding: var(--rvt-size-24);
 
-		&:not(:first-child) {
-			margin-block-start: var(--rvt-size-24);
-		}
+		> nav {
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: space-between;
 
-		> nav > ul > li > a {
-			font: var(--rvt-font-18);
+			> ul > li > a {
+				font: var(--rvt-font-18);
+			}
 		}
 
 		:where(ul) {
@@ -44,7 +62,7 @@ const { menus } = Astro.props;
 			padding: 0;
 		}
 
-		:where(a) {
+		:where(ul a) {
 			align-items: center;
 			color: unset;
 			display: flex;
@@ -72,6 +90,10 @@ const { menus } = Astro.props;
 				text-decoration: underline;
 				text-underline-offset: var(--rvt-size-4);
 			}
+		}
+
+		.rvt-button-group {
+			margin-block-start: var(--rvt-size-24);
 		}
 	}
 </style>
