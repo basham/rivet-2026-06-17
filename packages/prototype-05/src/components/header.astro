@@ -1,10 +1,12 @@
 ---
-import MobileMenu from "../components/mobile-menu.astro";
+import CTA from "../components/cta.astro";
+import Nav from "../components/nav.astro";
 import Search from "../components/search.astro";
 import { site } from "../const.js";
 import { getUrl } from "../util.js";
 
 const { menus } = Astro.props;
+const menuId = "rvt-header-menu";
 ---
 
 <rvt-header>
@@ -21,32 +23,96 @@ const { menus } = Astro.props;
 				<div class="rvt-lockup__title">{site}</div>
 			</div>
 		</a>
-		<Search />
-		<MobileMenu menus={menus} />
+		<button
+			aria-expanded="false"
+			class="rvt-button rvt-button--strong rvt-button--icon-only"
+			data-rvt-header-menu-toggle
+		>
+			<span class="rvt-sr-only">Menu</span>
+		</button>
+		<rvt-prototype-header-menu>
+			<Search />
+			<Nav menus={menus} />
+			<CTA />
+		</rvt-prototype-header-menu>
 	</header>
 </rvt-header>
 
 <style is:global>
 	rvt-header {
-		> header {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			padding: var(--rvt-size-24);
+		background-color: unset;
 
-			> rvt-prototype-search {
+		> header {
+			display: grid;
+			gap: 0 var(--rvt-size-24);
+			grid-template-areas:
+				"lockup button"
+				"menu menu";
+			grid-template-columns: 1fr auto;
+			padding: 0;
+
+			&::before {
 				display: none;
 			}
 
-			@media (width > 60rem) {
-				> rvt-prototype-search {
-					display: block;
-				}
+			> .rvt-lockup {
+				grid-area: lockup;
+				position: unset;
+			}
 
-				> rvt-prototype-mobile-menu {
+			> button {
+				grid-area: button;
+				margin: unset;
+				position: unset;
+			}
+
+			> rvt-prototype-header-menu {
+				display: flex;
+				gap: var(--rvt-size-24);
+				grid-area: menu;
+				flex-direction: column;
+				flex-grow: 1;
+				justify-self: center;
+				max-width: 20rem;
+				padding-block-start: var(--rvt-size-24);
+
+				rvt-prototype-nav {
+					flex-grow: 1;
+				}
+			}
+
+			@media (width <= 60rem) {
+				> button[aria-expanded="false"] ~ * {
+					display: none;
+				}
+			}
+
+			@media (width > 60rem) {
+				align-items: start;
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+
+				> button[aria-expanded] {
 					display: none;
 				}
 			}
 		}
 	}
 </style>
+
+<script>
+document.addEventListener("click", (event) => {
+	if (!(event.target instanceof Element)) {
+		return
+	};
+	const button = event.target.closest("button");
+	const attr = "aria-expanded";
+	if (button?.hasAttribute(attr)) {
+		const value = button.getAttribute(attr);
+		const newValue = value === "true" ? "false" : "true";
+		console.log(value, newValue);
+		button.setAttribute(attr, newValue);
+	}
+});
+</script>

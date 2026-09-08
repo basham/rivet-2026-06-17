@@ -1,12 +1,10 @@
 ---
 import "@rivet-iu/core/dist/rivet.css";
 import "@rivet-iu/core/dist/rivet-icons.css";
-import "@rivet-iu/core/dist/rivet-stickers.css";
 import Breadcrumbs from "../components/breadcrumbs.astro";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import HeroFigure from "../components/hero-figure.astro";
-import Nav from "../components/nav.astro";
 import { menus as _menus, site } from "../const.js";
 import { getMenus, getUrl } from "../util.js";
 
@@ -26,131 +24,149 @@ const docTitle = root ? site : [title, site].join(" - ");
 		<title>{docTitle}</title>
 	</head>
 	<body>
-		<Header menus={menus} />
-		<div class="layout">
-			<Nav menus={menus} />
-			{
-				!root && (
-					<Breadcrumbs page={page} />
-				)
-			}
-			<main id="main-content">
-				<div class:list={{
-					"rvt-hero": true,
-					"rvt-hero--statement": menus.page.depth === 0,
-					"rvt-hero--feature": menus.page.depth === 1,
-				}}>
-					<div class="rvt-hero__body">
-						{content.eyebrow && (
-							<div class="rvt-hero__eyebrow">{content.eyebrow}</div>
-						)}
-						<h1 class="rvt-hero__title">{content.h1}</h1>
-						<p class="rvt-hero__teaser">{content.intro}</p>
-						{content.heroAction && (
-							<div class="rvt-hero__actions">
-								<a
-									class="rvt-button rvt-button--cta rvt-button--strong"
-									href={getUrl(content.heroAction.id)}
-								>
-									{content.heroAction.label}
-								</a>
-							</div>
-						)}
+		<rvt-body>
+			<Header menus={menus} />
+			<rvt-main>
+				{
+					!root && (
+						<Breadcrumbs page={page} />
+					)
+				}
+				<main id="main-content">
+					<div class:list={{
+						"rvt-hero": true,
+						"rvt-hero--statement": menus.page.depth === 0,
+						"rvt-hero--feature": menus.page.depth === 1,
+					}}>
+						<div class="rvt-hero__body">
+							{content.eyebrow && (
+								<div class="rvt-hero__eyebrow">{content.eyebrow}</div>
+							)}
+							<h1 class="rvt-hero__title">{content.h1}</h1>
+							<p class="rvt-hero__teaser">{content.intro}</p>
+							{content.heroAction && (
+								<div class="rvt-hero__actions">
+									<a
+										class="rvt-button rvt-button--cta rvt-button--strong"
+										href={getUrl(content.heroAction.id)}
+									>
+										{content.heroAction.label}
+									</a>
+								</div>
+							)}
+						</div>
+						<HeroFigure
+							alt={(menus.page.content || content || {})["hero-image"]}
+							id={menus.page.id}
+						/>
 					</div>
-					<HeroFigure
-						alt={(menus.page.content || content || {})["hero-image"]}
-						id={menus.page.id}
-					/>
-				</div>
-				{content.h2 && (
-					<div class="rvt-rich-text">
-						<h2>{content.h2}</h2>
-						<p>{content.body}</p>
-					</div>
-				)}
-			</main>
+					{content.h2 && (
+						<div class="rvt-rich-text">
+							<h2>{content.h2}</h2>
+							<p>{content.body}</p>
+						</div>
+					)}
+				</main>
+			</rvt-main>
 			<Footer />
-		</div>
+		</rvt-body>
 	</body>
 </html>
 
 <style is:global>
-	:is(rvt-header, .rvt-footer) .rvt-container {
-		max-width: unset;
-		padding-inline: var(--rvt-size-24);
+	:root {
+		--rvt-color-brand-ultra-light: #fdfaf7;
+		--rvt-color-theme-background-light: var(--rvt-color-brand-ultra-light);
 	}
-</style>
 
-<style is:global>
+	html {
+		background-color: var(--rvt-color-theme-background-light);
+	}
+
 	body {
 		display: flex;
 		flex-direction: column;
 		min-height: 100%;
 	}
 
-	.layout {
+	rvt-body {
 		--padding: clamp(
 			var(--rvt-size-24),
 			5vw,
-			var(--rvt-size-48)
+			calc(
+				((var(--rvt-graphic-logo-iu-container-height) - var(--rvt-size-20)) / 2)
+				+ var(--rvt-size-24)
+			)
 		);
-		border-block-start: var(--rvt-border);
+		display: block;
 		flex-grow: 1;
 
-		rvt-prototype-nav {
-			display: none;
-			grid-area: nav;
-		}
-	}
-
-	rvt-breadcrumbs {
-		align-self: center;
-		display: block;
-		grid-area: breadcrumbs;
-		padding-block-start: var(--padding);
-		padding-inline: var(--padding);
-
-		nav {
-			display: flex;
-		}
-	}
-
-	main {
-		grid-area: main;
-		padding: var(--padding);
-
-		.rvt-hero {
-			padding-inline: 0;
+		rvt-header {
+			border-block-end: var(--rvt-border);
+			grid-area: header;
+			padding: var(--rvt-size-24);
 		}
 
-		.rvt-rich-text {
-			margin-block-start: var(--rvt-size-32);
-		}
-	}
+		rvt-main {
+			background: var(--rvt-color-theme-background);
+			display: block;
+			grid-area: main;
+			padding: var(--padding);
 
-	footer {
-		grid-area: footer;
+			rvt-breadcrumbs {
+				align-self: center;
+				display: block;
+				padding-block-end: var(--padding);
+
+				nav {
+					display: flex;
+				}
+			}
+
+			main {
+				grid-area: main;
+
+				.rvt-hero {
+					padding-inline: 0;
+				}
+
+				.rvt-rich-text {
+					margin-block-start: var(--rvt-size-32);
+				}
+			}
+		}
+
+		footer {
+			grid-area: footer;
+			padding: var(--rvt-size-24);
+
+			.rvt-footer-legal {
+				padding: 0;
+
+				ul {
+					flex-grow: unset;
+				}
+			}
+		}
 	}
 
 	@media (width > 60rem) {
-		.layout {
+		rvt-body {
 			display: grid;
 			grid-template-areas:
-				"nav breadcrumbs"
-				"nav main"
-				"nav footer";
+				"header main"
+				"header main"
+				"header footer";
 			grid-template-columns: 20rem 1fr;
 			grid-template-rows: auto 1fr auto;
 
-			rvt-prototype-nav {
+			rvt-header {
+				border-block-end: none;
 				border-inline-end: var(--rvt-border);
-				display: block;
 			}
 
-			:is(rvt-breadcrumbs, main) {
-				justify-self: center;
-				max-width: 80rem;
-				width: 100%;
+			rvt-main {
+				padding-inline: max(var(--padding), calc((100% - 90rem) / 2));
 			}
 		}
 	}

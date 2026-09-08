@@ -1,86 +1,53 @@
 ---
+import CTA from "../components/cta.astro";
+import SectionNav from "../components/section-nav.astro";
+
 const { menus } = Astro.props;
-const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
-const parent = menu.getParent();
 ---
 
 <rvt-prototype-nav>
 	<nav>
-		{menu.depth > 0 && (
-			<>
-				<a href={parent.url}>
-					<rvt-icon name="chevron-left"></rvt-icon>
-					Back
-				</a>
-				<a
-					aria-current={menu.current ? "page" : null}
-					data-current={menu.hasCurrent ? true : null}
-					href={menu.url}
-				>
-					{menu.label}
-				</a>
-			</>
-		)}
 		<ul>
-			{menu.items.map((item: any) => (
+			{menus.main.items.map((item: any) => (
 				<li>
 					<a
 						aria-current={item.current ? "page" : null}
+						data-current={item.hasCurrent ? true : null}
 						href={item.url}
 					>
 						{item.label}
-						{item.hasChildren && (
-							<rvt-icon name="chevron-right"></rvt-icon>
-						)}
 					</a>
+					{(item.current || item.hasCurrent) && (
+						<SectionNav menu={menus.page} />
+					)}
 				</li>
 			))}
 		</ul>
-
+		<CTA />
 	</nav>
 </rvt-prototype-nav>
 
 <style is:global>
 	rvt-prototype-nav {
-		display: flex;
-		flex-direction: column;
+		display: block;
 
 		> nav {
 			display: flex;
+			height: 100%;
 			flex-direction: column;
-			flex-grow: 1;
-			gap: var(--rvt-size-8);
+			justify-content: space-between;
 
-			> a {
-				justify-content: unset;
-
-				&:not(:has(rvt-icon)) {
-					font: var(--rvt-font-18);
-				}
-
-				&:has(rvt-icon) {
-					font: var(--rvt-font-14);
-					gap: var(--rvt-size-4);
-					padding-block: var(--rvt-size-2);
-				}
-			}
-
-			ul:first-child {
-				gap: var(--rvt-size-16);
-
-				a {
-					font: var(--rvt-font-18);
-				}
+			> ul > li > a {
+				font: var(--rvt-font-18);
 			}
 		}
 
 		:where(ul) {
 			display: flex;
 			flex-direction: column;
-			flex-grow: 1;
-			gap: var(--rvt-size-8);
+			gap: var(--rvt-size-16);
 			list-style-type: "";
-			margin: var(--rvt-size-8) 0 0;
+			margin: 0;
 			padding: 0;
 		}
 
@@ -99,6 +66,10 @@ const parent = menu.getParent();
 			&:hover {
 				color: var(--rvt-color-theme-text-accent);
 				text-decoration: underline;
+			}
+
+			&[data-current] {
+				font-variation-settings: var(--rvt-font-variation-grade);
 			}
 
 			&[aria-current="page"] {
