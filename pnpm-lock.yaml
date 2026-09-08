@@ -209,8 +209,8 @@ catalogs:
       specifier: github:indiana-university/rivet-source#v3-header-nav&path:/packages/core
       version: 3.0.0-alpha.10
     astro:
-      specifier: 7.2.10
-      version: 7.2.10
+      specifier: 7.3.1
+      version: 7.3.1
     linkedom:
       specifier: 0.18.13
       version: 0.18.13
@@ -262,7 +262,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+        version: 7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
 
   packages/prototype-01:
     dependencies:
@@ -272,7 +272,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+        version: 7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
       sharp:
         specifier: 'catalog:'
         version: 0.35.4
@@ -288,7 +288,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+        version: 7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
 
   packages/prototype-03:
     dependencies:
@@ -304,7 +304,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+        version: 7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
 
   packages/prototype-04:
     dependencies:
@@ -320,7 +320,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+        version: 7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
 
   packages/prototype-05:
     dependencies:
@@ -339,7 +339,7 @@ importers:
     devDependencies:
       astro:
         specifier: 'catalog:'
-        version: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
+        version: 7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
       linkedom:
         specifier: 'catalog:'
         version: 0.18.13
@@ -1037,8 +1037,8 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
-  astro@7.2.10:
-    resolution: {integrity: sha512-uPtD+nK6kQXugyq4kiMPwj9OI3Sae6HSerA5X+fuv2CPaDwxmokFPPFlGRKIAXH0QAKu+zot2q6yrLG61wFmqg==}
+  astro@7.3.1:
+    resolution: {integrity: sha512-A/bJYHtc6n0UAdROY9W948fW6lX0pnUA+JWKW+IGCXRyDIGN2MsXC0OlS8onZGJjr+sv8htemwOc9W5PBRXCkw==}
     engines: {node: '>=22.12.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
     peerDependencies:
@@ -1938,8 +1938,8 @@ packages:
     resolution: {integrity: sha512-4LCcse/U2MHZ63HAJVE+v71o7yOdIe4cZ70Wpf8D/IyjDKYQLV5GD46B+hSTjJsvV5PztjvHoU580EftxjDZFQ==}
     engines: {node: '>=12.20'}
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+  zod@4.5.4:
+    resolution: {integrity: sha512-sC95tT5iHHH9gtpj6A81kh+NEaRAUFN+qlUPDUbRfOMvNf5QCBqsb3WgvnpVtK5Y+4UfA6KqufotuTvMGiTlsA==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -2463,7 +2463,7 @@ snapshots:
 
   aria-query@5.3.2: {}
 
-  astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3):
+  astro@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3):
     dependencies:
       '@astrojs/compiler-rs': 0.4.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)
       '@astrojs/internal-helpers': 0.11.0
@@ -2517,7 +2517,7 @@ snapshots:
       vitefu: 1.1.3(vite@8.1.0(esbuild@0.28.1))
       xxhash-wasm: 1.1.0
       yargs-parser: 22.0.0
-      zod: 4.4.3
+      zod: 4.5.4
     optionalDependencies:
       sharp: 0.35.4
     transitivePeerDependencies:
@@ -3270,6 +3270,6 @@ snapshots:
 
   yocto-queue@1.2.2: {}
 
-  zod@4.4.3: {}
+  zod@4.5.4: {}
 
   zwitch@2.0.4: {}
