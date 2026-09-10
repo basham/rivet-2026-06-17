@@ -10,7 +10,7 @@ const parent = menu.getParent();
 			<>
 				<a href={parent.url}>
 					<rvt-icon name="chevron-left"></rvt-icon>
-					Back
+					Back to {parent.main ? "Home" : parent.label}
 				</a>
 				<a
 					aria-current={menu.current ? "page" : null}
@@ -49,7 +49,7 @@ const parent = menu.getParent();
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
-			gap: var(--rvt-size-8);
+			gap: var(--rvt-size-16);
 
 			> a {
 				justify-content: unset;
@@ -67,6 +67,7 @@ const parent = menu.getParent();
 
 			ul:first-child {
 				gap: var(--rvt-size-16);
+				margin-inline-start: 0;
 
 				a {
 					font: var(--rvt-font-18);
@@ -80,7 +81,7 @@ const parent = menu.getParent();
 			flex-grow: 1;
 			gap: var(--rvt-size-8);
 			list-style-type: "";
-			margin: var(--rvt-size-8) 0 0;
+			margin: 0 0 0 var(--rvt-size-20);
 			padding: 0;
 		}
 
