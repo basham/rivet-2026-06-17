@@ -1,14 +1,52 @@
 ---
+import { site } from "../const.js";
+import { getUrl } from "../util.js";
+
+const { menus } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
 <footer class="rvt-footer">
+	<div class="rvt-footer-resources">
+		<h2 class="rvt-sr-only">Resources</h2>
+		<div class="rvt-footer-resources__contact">
+			<h3>
+				<a class="rvt-lockup" href={getUrl()}>
+					{site}
+				</a>
+			</h3>
+			<p>
+				107 S. Indiana Avenue<br>
+				Bloomington, IN 47405-7000
+			</p>
+			<p>
+				<a href="tel:8128554848">(812) 855-4848</a>
+			</p>
+		</div>
+		<div class="rvt-footer-resources__links">
+			<div>
+				<h3>
+					Explore
+				</h3>
+				<ul>
+					{menus.main.items.map((item: any) => (
+						<li>
+							<a
+								aria-current={item.current ? "page" : null}
+								href={item.url}
+							>
+								{item.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	</div>
 	<div class="rvt-footer-legal">
 		<h2 class="rvt-sr-only">Legal</h2><ul>
 			<li>
-				<a href="https://accessibility.iu.edu/assistance/">
-					Accessibility
-				</a>
+				<a href="https://accessibility.iu.edu/assistance/"> Accessibility </a>
 			</li>
 			<li>
 				<a href="https://www.iu.edu/college-scorecard.html">
@@ -16,14 +54,10 @@ const year = new Date().getFullYear();
 				</a>
 			</li>
 			<li>
-				<a href="https://www.iu.edu/open-to-all.html">
-					Open to All
-				</a>
+				<a href="https://www.iu.edu/open-to-all.html"> Open to All </a>
 			</li>
 			<li>
-				<a href="https://iu.edu/privacy/">
-					Privacy Notice
-				</a>
+				<a href="https://iu.edu/privacy/"> Privacy Notice </a>
 			</li>
 			<li>
 				<a href="https://indianapolis.iu.edu/required-disclosures/">
@@ -38,3 +72,21 @@ const year = new Date().getFullYear();
 		</ul>
 	</div>
 </footer>
+
+<style is:global>
+	.rvt-footer {
+		padding-inline: var(--padding);
+
+		.rvt-footer-resources {
+			padding-block: var(--padding);
+		}
+
+		.rvt-footer-resources__contact h3 a {
+			color: var(--rvt-color-theme-text-accent);
+		}
+
+		.rvt-footer-legal {
+			padding-block: var(--rvt-size-24);
+		}
+	}
+</style>

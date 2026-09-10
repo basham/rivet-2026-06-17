@@ -6,7 +6,6 @@ import { site } from "../const.js";
 import { getUrl } from "../util.js";
 
 const { menus } = Astro.props;
-const menuId = "rvt-header-menu";
 ---
 
 <rvt-header>
@@ -49,7 +48,7 @@ const menuId = "rvt-header-menu";
 				"lockup button"
 				"menu menu";
 			grid-template-columns: 1fr auto;
-			padding: 0;
+			padding-inline: var(--rvt-size-24);
 
 			&::before {
 				display: none;
@@ -80,21 +79,29 @@ const menuId = "rvt-header-menu";
 					flex-grow: 1;
 				}
 			}
+		}
 
-			@media (width <= 60rem) {
-				> button[aria-expanded="false"] ~ * {
-					display: none;
-				}
+		@media (width <= 60rem) {
+			> header > button[aria-expanded="false"] ~ * {
+				display: none;
 			}
+		}
 
-			@media (width > 60rem) {
+		@media (width > 60rem) {
+			> header {
+				--padding: var(--rvt-size-24);
 				align-items: start;
 				display: flex;
 				flex-direction: column;
-				height: 100%;
+				padding-block-end: 0;
+				padding-inline-end: calc(var(--padding) - var(--scrollbar-width, var(--rvt-size-16)));
 
 				> button[aria-expanded] {
 					display: none;
+				}
+
+				> rvt-prototype-header-menu {
+					padding-block-end: var(--rvt-size-24);
 				}
 			}
 		}
@@ -115,4 +122,11 @@ document.addEventListener("click", (event) => {
 		button.setAttribute(attr, newValue);
 	}
 });
+
+const header = document.querySelector("rvt-header") as HTMLElement;
+const resizeObserver = new ResizeObserver(() => {
+	const scrollbarWidth = header.offsetWidth - header.clientWidth - header.clientLeft;
+	header.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+});
+resizeObserver.observe(header);
 </script>

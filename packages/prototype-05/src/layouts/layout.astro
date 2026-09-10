@@ -68,7 +68,7 @@ const docTitle = root ? site : [title, site].join(" - ");
 					)}
 				</main>
 			</rvt-main>
-			<Footer />
+			<Footer menus={menus} />
 		</rvt-body>
 	</body>
 </html>
@@ -104,7 +104,6 @@ const docTitle = root ? site : [title, site].join(" - ");
 		rvt-header {
 			border-block-end: var(--rvt-border);
 			grid-area: header;
-			padding: var(--rvt-size-24);
 		}
 
 		rvt-main {
@@ -138,15 +137,6 @@ const docTitle = root ? site : [title, site].join(" - ");
 
 		footer {
 			grid-area: footer;
-			padding: var(--rvt-size-24);
-
-			.rvt-footer-legal {
-				padding: 0;
-
-				ul {
-					flex-grow: unset;
-				}
-			}
 		}
 	}
 
@@ -163,6 +153,12 @@ const docTitle = root ? site : [title, site].join(" - ");
 			rvt-header {
 				border-block-end: none;
 				border-inline-end: var(--rvt-border);
+				display: flex;
+				height: 100vh;
+				overflow-y: auto;
+				position: sticky;
+				scrollbar-gutter: stable;
+				top: 0;
 			}
 
 			rvt-main {
