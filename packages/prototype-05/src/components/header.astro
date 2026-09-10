@@ -109,6 +109,13 @@ const { menus } = Astro.props;
 </style>
 
 <script>
+const menuExpanded = window.localStorage.getItem("menu-expanded") ?? "false";
+const menuButton = document.querySelector("[data-rvt-header-menu-toggle]");
+
+if (menuButton) {
+	menuButton.setAttribute("aria-expanded", menuExpanded);
+}
+
 document.addEventListener("click", (event) => {
 	if (!(event.target instanceof Element)) {
 		return
@@ -120,6 +127,7 @@ document.addEventListener("click", (event) => {
 		const newValue = value === "true" ? "false" : "true";
 		console.log(value, newValue);
 		button.setAttribute(attr, newValue);
+		window.localStorage.setItem("menu-expanded", newValue);
 	}
 });
 
