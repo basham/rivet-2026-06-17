@@ -1,28 +1,21 @@
 ---
 const { menus } = Astro.props;
-const menu = menus.page.hasChildren ? menus.page : menus.page.getParent();
-const parent = menu.getParent();
+const menu = menus.page;
+const parent = menu.getParent() || menus.main;
 ---
 
 <rvt-prototype-nav>
 	<nav>
-		{menu.depth > 0 && (
+		{menu.depth > 1 && (
 			<>
 				<a href={parent.url}>
 					<rvt-icon name="chevron-left"></rvt-icon>
 					Back to {parent.main ? "Home" : parent.label}
 				</a>
-				<a
-					aria-current={menu.current ? "page" : null}
-					data-current={menu.hasCurrent ? true : null}
-					href={menu.url}
-				>
-					{menu.label}
-				</a>
 			</>
 		)}
 		<ul>
-			{menu.items.map((item: any) => (
+			{parent.items.map((item: any) => (
 				<li>
 					<a
 						aria-current={item.current ? "page" : null}
@@ -30,13 +23,26 @@ const parent = menu.getParent();
 					>
 						{item.label}
 						{item.hasChildren && (
-							<rvt-icon name="chevron-right"></rvt-icon>
+							<rvt-icon name={(item.current || item.hasCurrent) ? "chevron-down" : "chevron-right"}></rvt-icon>
 						)}
 					</a>
+					{(item.current || item.hasCurrent) && item.hasChildren && (
+						<ul>
+							{item.items.map((item: any) => (
+								<li>
+									<a
+										aria-current={item.current ? "page" : null}
+										href={item.url}
+									>
+										{item.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					)}
 				</li>
 			))}
 		</ul>
-
 	</nav>
 </rvt-prototype-nav>
 
@@ -51,12 +57,43 @@ const parent = menu.getParent();
 			flex-grow: 1;
 			gap: var(--rvt-size-16);
 
+			:where(ul) {
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+				gap: var(--rvt-size-16);
+				list-style-type: "";
+				margin: 0;
+				padding: 0;
+			}
+
+			:where(a) {
+				align-items: center;
+				color: unset;
+				display: flex;
+				gap: var(--rvt-size-8);
+				justify-content: space-between;
+				text-decoration: none;
+
+				&:visited {
+					color: inherit;
+				}
+
+				&:hover {
+					color: var(--rvt-color-theme-text-accent);
+					text-decoration: underline;
+				}
+
+				&[aria-current="page"] {
+					color: var(--rvt-color-theme-text-accent);
+					font-variation-settings: var(--rvt-font-variation-grade);
+					text-decoration: underline;
+					text-underline-offset: var(--rvt-size-4);
+				}
+			}
+
 			> a {
 				justify-content: unset;
-
-				&:not(:has(rvt-icon)) {
-					font: var(--rvt-font-18);
-				}
 
 				&:has(rvt-icon) {
 					font: var(--rvt-font-14);
@@ -65,53 +102,26 @@ const parent = menu.getParent();
 				}
 			}
 
-			ul:first-child {
+			> ul {
 				gap: var(--rvt-size-16);
-				margin-inline-start: 0;
 
-				a {
-					font: var(--rvt-font-18);
+				&:not(:first-child) {
+					border-block-start: var(--rvt-border);
+					padding-block-start: var(--rvt-size-16);
+				}
+
+				> li {
+					> a {
+						font: var(--rvt-font-18);
+					}
+
+					> ul {
+						gap: var(--rvt-size-8);
+						margin-block-start: var(--rvt-size-16);
+						margin-inline-start: var(--rvt-size-20);
+					}
 				}
 			}
-		}
-
-		:where(ul) {
-			display: flex;
-			flex-direction: column;
-			flex-grow: 1;
-			gap: var(--rvt-size-8);
-			list-style-type: "";
-			margin: 0 0 0 var(--rvt-size-20);
-			padding: 0;
-		}
-
-		:where(a:not(.rvt-button)) {
-			align-items: center;
-			color: unset;
-			display: flex;
-			gap: var(--rvt-size-8);
-			justify-content: space-between;
-			text-decoration: none;
-
-			&:visited {
-				color: inherit;
-			}
-
-			&:hover {
-				color: var(--rvt-color-theme-text-accent);
-				text-decoration: underline;
-			}
-
-			&[aria-current="page"] {
-				color: var(--rvt-color-theme-text-accent);
-				font-variation-settings: var(--rvt-font-variation-grade);
-				text-decoration: underline;
-				text-underline-offset: var(--rvt-size-4);
-			}
-		}
-
-		.rvt-button-group {
-			margin-block-start: var(--rvt-size-48);
 		}
 	}
 </style>
