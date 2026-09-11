@@ -78,11 +78,21 @@ const year = new Date().getFullYear();
 		padding-inline: var(--padding);
 
 		.rvt-footer-resources {
+			column-gap: calc(var(--padding) * 2);
 			padding-block: var(--padding);
 		}
 
-		.rvt-footer-resources__contact h3 a {
-			color: var(--rvt-color-theme-text-accent);
+		.rvt-footer-resources__contact {
+			flex-grow: unset;
+
+			h3 a {
+				color: var(--rvt-color-theme-text-accent);
+			}
+		}
+
+		.rvt-footer-resources__links {
+			flex-basis: unset;
+			flex-grow: unset;
 		}
 
 		.rvt-footer-legal {
