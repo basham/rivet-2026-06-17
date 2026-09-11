@@ -79,6 +79,12 @@ const { menus } = Astro.props;
 					flex-grow: 1;
 				}
 			}
+
+			&:has(search) > button::before {
+				--height: var(--rvt-graphic-menu-magnifying-glass-height);
+				--path: var(--rvt-graphic-menu-magnifying-glass-path);
+				--width: var(--rvt-graphic-menu-magnifying-glass-width);
+			}
 		}
 
 		@media (width <= 60rem) {
